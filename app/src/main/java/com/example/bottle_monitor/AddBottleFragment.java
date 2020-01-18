@@ -23,19 +23,26 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
-public class AddBottleFragment extends Fragment implements AdapterView.OnItemSelectedListener, PasswordDialog.PasswordDialogListener {
+public class AddBottleFragment extends Fragment implements PasswordDialog.PasswordDialogListener {
 
     private OnFragmentInteractionListener mListener;
     String[] lDevices = {"Device 1","Device 2","Device 3","Device 4"};
     String[] lPatients = {"Patient 1","Patient 2","Patient 3","Patient 4"};
     private Button btnSwitchOn;
     private String password;
+    private final String passwordSet = "123456";
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("bottle");
+    DatabaseReference bRef = database.getReference("bottles");
+
+    ArrayAdapter aaDevices;
+    ArrayAdapter aaPatients;
 
 
 
@@ -43,6 +50,8 @@ public class AddBottleFragment extends Fragment implements AdapterView.OnItemSel
     private EditText etBottleContent;
     private EditText etBottleQty;
     private EditText etRoomNo;
+    private String device_id;
+    private String patient_id;
     
 
     EditText etPass;
@@ -72,6 +81,7 @@ public class AddBottleFragment extends Fragment implements AdapterView.OnItemSel
         etBottleContent = (EditText) v.findViewById(R.id.etBottleContent);
         etBottleQty = (EditText) v.findViewById(R.id.etBottleQty);
         etRoomNo = (EditText) v.findViewById(R.id.etRoomNo);
+
         btnSwitchOn = (Button) v.findViewById(R.id.btnSwitchOn);
         btnSwitchOn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,17 +91,37 @@ public class AddBottleFragment extends Fragment implements AdapterView.OnItemSel
             }
         });
         Spinner spDevices = (Spinner) v.findViewById(R.id.spDevice);
-        spDevices.setOnItemSelectedListener(this);
+        spDevices.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                device_id = lDevices[i];
+            }
 
-        ArrayAdapter aaDevices = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item,lDevices);
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        aaDevices = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item,lDevices);
         aaDevices.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         spDevices.setAdapter(aaDevices);
 
         Spinner spPatients = (Spinner) v.findViewById(R.id.spPatient);
-        spPatients.setOnItemSelectedListener(this);
+        spPatients.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                patient_id = lPatients[i];
+            }
 
-        ArrayAdapter aaPatients = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, lPatients);
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        aaPatients = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, lPatients);
         aaPatients.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spPatients.setAdapter(aaPatients);
@@ -102,6 +132,7 @@ public class AddBottleFragment extends Fragment implements AdapterView.OnItemSel
     private void openDialog() {
         PasswordDialog passwordDialog = new PasswordDialog();
         passwordDialog.show(getFragmentManager(), "Password dialog");
+        passwordDialog.setTargetFragment(AddBottleFragment.this, 1);
 
     }
 
@@ -124,34 +155,33 @@ public class AddBottleFragment extends Fragment implements AdapterView.OnItemSel
         mListener = null;
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-        Toast.makeText(getContext(),lDevices[i] , Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
 
     @Override
     public void applytexts(String password) {
 
-        password = this.password;
+        this.password = password.trim();
+        if(password.equals(passwordSet)){
+            Toast.makeText(getContext(),"entered",Toast.LENGTH_SHORT).show();
+
+            Date date = new Date();
+
+
+            Bottle bottle = new Bottle(etBottleContent.getText().toString(), Float.parseFloat(etBottleQty.getText().toString()), device_id, date,patient_id, etRoomNo.getText().toString() );
+            bRef.setValue("Test");
+            bRef.child(Integer.toString(bottle.getId())).setValue(bottle);
+            Toast.makeText(getContext(),"yes",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(getContext(),"wrong", Toast.LENGTH_SHORT).show();
+        }
+
+
 
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
+
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

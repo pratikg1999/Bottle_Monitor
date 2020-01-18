@@ -3,7 +3,8 @@ package com.example.bottle_monitor;
 import java.util.ArrayList;
 
 public class Device {
-    private static int device_id = 0;
+    private static int cur_device_id = 0;
+    private int id = 0;
     private float ls;
     private float sm;
     private boolean on_off;
@@ -16,6 +17,7 @@ public class Device {
         this.on_off = on_off;
         this.rate = rate;
         this.bottles = bottles;
+        this.id = cur_device_id++;
     }
 
     public Device() {
@@ -30,12 +32,12 @@ public class Device {
         this.bottles = bottles;
     }
 
-    public static int getDevice_id() {
-        return device_id;
+    public static int getCur_device_id() {
+        return cur_device_id;
     }
 
-    public static void setDevice_id(int device_id) {
-        Device.device_id = device_id;
+    public static void setCur_device_id(int cur_device_id) {
+        Device.cur_device_id = cur_device_id;
     }
 
     public float getLs() {
