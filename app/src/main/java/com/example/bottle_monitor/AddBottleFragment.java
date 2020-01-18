@@ -1,5 +1,6 @@
 package com.example.bottle_monitor;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,11 +10,34 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
 
 
-public class AddBottleFragment extends Fragment {
+public class AddBottleFragment extends Fragment implements AdapterView.OnItemSelectedListener, PasswordDialog.PasswordDialogListener {
 
     private OnFragmentInteractionListener mListener;
+    String[] lDevices = {"Device 1","Device 2","Device 3","Device 4"};
+    String[] lPatients = {"Patient 1","Patient 2","Patient 3","Patient 4"};
+    private Button btnSwitchOn;
+    private String password;
+
+
+    private EditText etBottleContent;
+    private EditText etBottleQty;
+    private EditText etRoomNo;
+    
+
+    EditText etPass;
 
     public AddBottleFragment() {
         // Required empty public constructor
@@ -37,9 +61,40 @@ public class AddBottleFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_add_bottle, container, false);
+        etBottleContent = (EditText) v.findViewById(R.id.etBottleContent);
+        etBottleQty = (EditText) v.findViewById(R.id.etBottleQty);
+        etRoomNo = (EditText) v.findViewById(R.id.etRoomNo);
+        btnSwitchOn = (Button) v.findViewById(R.id.btnSwitchOn);
+        btnSwitchOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog();
 
+            }
+        });
+        Spinner spDevices = (Spinner) v.findViewById(R.id.spDevice);
+        spDevices.setOnItemSelectedListener(this);
+
+        ArrayAdapter aaDevices = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item,lDevices);
+        aaDevices.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        spDevices.setAdapter(aaDevices);
+
+        Spinner spPatients = (Spinner) v.findViewById(R.id.spPatient);
+        spPatients.setOnItemSelectedListener(this);
+
+        ArrayAdapter aaPatients = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, lPatients);
+        aaPatients.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spPatients.setAdapter(aaPatients);
 
         return v;
+    }
+
+    private void openDialog() {
+        PasswordDialog passwordDialog = new PasswordDialog();
+        passwordDialog.show(getFragmentManager(), "Password dialog");
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -52,18 +107,31 @@ public class AddBottleFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+        
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+        Toast.makeText(getContext(),lDevices[i] , Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    @Override
+    public void applytexts(String password) {
+
+        password = this.password;
+
     }
 
     /**
@@ -80,4 +148,6 @@ public class AddBottleFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }

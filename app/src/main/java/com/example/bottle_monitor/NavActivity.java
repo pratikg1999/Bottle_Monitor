@@ -26,9 +26,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 
-public class NavActivity extends AppCompatActivity implements
-        AddBottleFragment.OnFragmentInteractionListener, StatusFragment.OnFragmentInteractionListener {
 
+public class NavActivity extends AppCompatActivity  implements  AddBottleFragment.OnFragmentInteractionListener, StatusFragment.OnFragmentInteractionListener, PasswordDialog.PasswordDialogListener{
     private AppBarConfiguration mAppBarConfiguration;
     public static final String CHANNEL_ID = "NOTIFICATION CHANNEL";
     public void createNotificationChannel(){
@@ -101,6 +100,16 @@ public class NavActivity extends AppCompatActivity implements
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    @Override
+    public void applytexts(String password) {
 
     }
 }

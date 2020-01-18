@@ -67,7 +67,6 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
      * @param param1 Parameter 1.
      * @return A new instance of fragment StatusFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static StatusFragment newInstance(String param1) {
         StatusFragment fragment = new StatusFragment();
         Bundle args = new Bundle();
