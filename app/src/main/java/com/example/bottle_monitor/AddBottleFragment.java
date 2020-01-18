@@ -20,6 +20,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 
@@ -30,6 +33,11 @@ public class AddBottleFragment extends Fragment implements AdapterView.OnItemSel
     String[] lPatients = {"Patient 1","Patient 2","Patient 3","Patient 4"};
     private Button btnSwitchOn;
     private String password;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("bottle");
+
+
 
 
     private EditText etBottleContent;
