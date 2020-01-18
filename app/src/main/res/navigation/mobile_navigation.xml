@@ -10,7 +10,13 @@
         android:id="@+id/addBottleFragment"
         android:name="com.example.bottle_monitor.AddBottleFragment"
         android:label="fragment_add_bottle"
-        tools:layout="@layout/fragment_add_bottle" />
+        tools:layout="@layout/fragment_add_bottle" >
+        <action
+            android:id="@+id/action_addBottleFragment_to_statusFragment"
+            app:destination="@id/statusFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
     <fragment
         android:id="@+id/statusFragment"
         android:name="com.example.bottle_monitor.StatusFragment"

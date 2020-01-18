@@ -60,7 +60,7 @@ public class PasswordDialog extends DialogFragment {
                         String password = etPass.getText().toString();
                         Toast.makeText(getContext(), password, Toast.LENGTH_SHORT).show();
                         listener.applytexts(password);
-                        Toast.makeText(getContext(),"ajdsfnkj",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"finished apply texts",Toast.LENGTH_SHORT).show();
                     }
                 });
 

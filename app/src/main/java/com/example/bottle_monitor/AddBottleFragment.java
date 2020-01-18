@@ -3,9 +3,12 @@ package com.example.bottle_monitor;
 import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -170,6 +173,16 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
             bRef.setValue("Test");
             bRef.child(Integer.toString(bottle.getId())).setValue(bottle);
             Toast.makeText(getContext(),"yes",Toast.LENGTH_SHORT).show();
+
+            StatusFragment statusFragment = StatusFragment.newInstance(device_id, bottle.getQuantity());
+//            getActivity().getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.nav_host_fragment, statusFragment, "findThisFragment")
+//                    .addToBackStack(null)
+//                    .commit();
+            Bundle statusFragmentBundle = new Bundle();
+            statusFragmentBundle.putString(StatusFragment.ARG_DEV_ID, device_id);
+            statusFragmentBundle.putFloat(StatusFragment.ARG_BOTTLE_QTY, bottle.getQuantity());
+            Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.statusFragment, statusFragmentBundle);
         }
         else{
             Toast.makeText(getContext(),"wrong", Toast.LENGTH_SHORT).show();

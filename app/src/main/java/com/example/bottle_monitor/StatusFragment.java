@@ -27,6 +27,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -40,8 +42,8 @@ import java.util.Date;
  * create an instance of this fragment.
  */
 public class StatusFragment extends Fragment implements View.OnClickListener {
-    private static final String ARG_DEV_ID = "dev_id";
-    private static final String ARG_BOTTLE_QTY = "bottle_qty";
+    public static final String ARG_DEV_ID = "dev_id";
+    public static final String ARG_BOTTLE_QTY = "bottle_qty";
     private String device_id = "1"; //TODO remove default value important
     private Float bottle_qty = 1f; //TODO  may remove default value
 
@@ -73,6 +75,12 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
 
 
     private OnFragmentInteractionListener mListener;
+
+    static String getFormattedDate(Date date){
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+        return  dateFormat.format(date);
+
+    }
     public StatusFragment() {
         // Required empty public constructor
     }
@@ -136,12 +144,24 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                 rate = dataSnapshot.child("rate").getValue(Float.class);
                 ls_reading = dataSnapshot.child("ls_reading").getValue(Float.class);
                 sm_reading = dataSnapshot.child("sm_reading").getValue(Float.class);
+                rate = rate>0.001f ? rate : 0.001f;
                 time_rem_sec = (int) (ls_reading/rate);
+                est_time = Calendar.getInstance();
                 est_time.add(Calendar.SECOND, time_rem_sec);
                 tv_rate.setText(rate+"");
-                tv_est_time.setText(est_time.getTime().toString()+"");
+                tv_est_time.setText(getFormattedDate(est_time.getTime()));
                 rem_qty_in_ml = ls_reading/density;
                 tv_rem_qty.setText(rem_qty_in_ml+"");
+                if(rem_qty_in_ml<=1){
+                    et_alarm_time.setEnabled(false);
+                    bt_set_alarm.setEnabled(false);
+                    cb_notify.setChecked(false);
+                    cb_notify.setEnabled(false);
+                    curDeviceRef.child("on_off").setValue(false);
+                    if(cb_notify.isChecked()){
+                        NotificationHelper.dispNotification(getActivity(), device_id + " completed", device_id + " bottle is now emptied and turned off");
+                    }
+                }
                 Toast.makeText(getActivity(), rem_qty_in_ml+"", Toast.LENGTH_SHORT).show();
                 Boolean on_off_status = dataSnapshot.child("on_off").getValue(Boolean.class);
                 tb_on_off.setChecked(on_off_status!=null ? on_off_status : false);
@@ -192,7 +212,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                             int min_bef = Integer.parseInt(min_bef_string);
 
                             Calendar alarmCal  = (Calendar) est_time.clone();
-                            alarmCal.add(Calendar.MINUTE, min_bef);
+                            alarmCal.add(Calendar.MINUTE, -min_bef);
 //                            Calendar cal = Calendar.getInstance();
 //
 //                            cal.setTimeInMillis(System.currentTimeMillis());
@@ -205,7 +225,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                             // cal.add(Calendar.SECOND, 5);
                             alarmMgr.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), pendingIntent);
                             Toast.makeText(getActivity(), "Alarm set for "+ alarmCal.getTime().toString() , Toast.LENGTH_SHORT).show();
-                            tv_alarm_status.setText("Alarm set at "+ alarmCal.getTime().toString());
+                            tv_alarm_status.setText("Alarm set at "+ getFormattedDate(alarmCal.getTime()));
                         }
                         else{
                             et_alarm_time.setError("necessary");

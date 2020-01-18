@@ -6,14 +6,14 @@ public class Device {
     private static int cur_device_id = 0;
     private int id = 0;
     private float ls;
-    private float sm;
+    private float sm_reading;
     private boolean on_off;
     private float rate;
     ArrayList<String> bottles = new ArrayList<String>();
 
     public Device(float ls, float sm, boolean on_off, float rate, ArrayList<String> bottles) {
         this.ls = ls;
-        this.sm = sm;
+        this.sm_reading = sm;
         this.on_off = on_off;
         this.rate = rate;
         this.bottles = bottles;
@@ -49,11 +49,11 @@ public class Device {
     }
 
     public float getSm() {
-        return sm;
+        return sm_reading;
     }
 
     public void setSm(float sm) {
-        this.sm = sm;
+        this.sm_reading = sm;
     }
 
     public boolean isOn_off() {

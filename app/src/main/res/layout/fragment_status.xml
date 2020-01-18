@@ -22,7 +22,7 @@
             android:layout_weight="2"
             android:text="Rate"
             android:textColor="@android:color/black"
-            android:textSize="15pt" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_rate"
@@ -31,7 +31,7 @@
             android:layout_weight="1"
             android:text=""
 
-            android:textSize="15pt" />
+            android:textSize="15sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -47,7 +47,7 @@
             android:layout_weight="2"
             android:text="Remaing qty (ml)"
             android:textColor="@android:color/black"
-            android:textSize="15pt" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_rem_qty"
@@ -57,7 +57,7 @@
             android:text=""
             android:textColor="@android:color/black"
 
-            android:textSize="15pt" />
+            android:textSize="15sp" />
     </LinearLayout>
 
 
@@ -72,10 +72,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="Estimate time"
+            android:text="Estimated time"
 
             android:textColor="@android:color/black"
-            android:textSize="15pt" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_est_time"
@@ -85,7 +85,7 @@
             android:text=""
             android:textColor="@android:color/black"
 
-            android:textSize="15pt" />
+            android:textSize="15sp" />
     </LinearLayout>
 
 
