@@ -6,9 +6,13 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/add_bottle"
+            android:id="@+id/addBottleFragment"
             android:icon="@drawable/ic_menu_manage"
             android:title="Add bottle" />
+        <item
+            android:id="@+id/statusFragment"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="See status" />
     </group>
 
 <!--    <item android:title="Communicate">-->
