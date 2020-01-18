@@ -30,6 +30,11 @@ public class AddBottleFragment extends Fragment implements AdapterView.OnItemSel
     String[] lPatients = {"Patient 1","Patient 2","Patient 3","Patient 4"};
     private Button btnSwitchOn;
     private String password;
+
+
+    private EditText etBottleContent;
+    private EditText etBottleQty;
+    private EditText etRoomNo;
     
 
     EditText etPass;
@@ -56,6 +61,9 @@ public class AddBottleFragment extends Fragment implements AdapterView.OnItemSel
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_add_bottle, container, false);
+        etBottleContent = (EditText) v.findViewById(R.id.etBottleContent);
+        etBottleQty = (EditText) v.findViewById(R.id.etBottleQty);
+        etRoomNo = (EditText) v.findViewById(R.id.etRoomNo);
         btnSwitchOn = (Button) v.findViewById(R.id.btnSwitchOn);
         btnSwitchOn.setOnClickListener(new View.OnClickListener() {
             @Override
