@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -15,11 +16,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -35,7 +41,9 @@ import java.util.Date;
  */
 public class StatusFragment extends Fragment implements View.OnClickListener {
     private static final String ARG_DEV_ID = "dev_id";
-    private String device_id;
+    private static final String ARG_BOTTLE_QTY = "bottle_qty";
+    private String device_id = "1"; //TODO remove default value important
+    private Float bottle_qty = 1f; //TODO  may remove default value
 
     TextView tv_rate;
     TextView tv_rem_qty;
@@ -46,16 +54,25 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
     Button bt_set_alarm;
     Button bt_rem_alarm;
 
-    int rate;
-    int rem_qty;
+    ToggleButton tb_on_off;
+    Switch switch_flow;
+
+    float rate;
+    float rem_qty;
+    float ls_reading;
+    float sm_reading;
+    int time_rem_sec;
+    float density = 1;
+    float rem_qty_in_ml;
+
     Calendar est_time = Calendar.getInstance();
 
-    DatabaseReference deviceRef = FirebaseDatabase.getInstance().getReference("devices");
 
+    DatabaseReference deviceRef = FirebaseDatabase.getInstance().getReference("devices");
+    DatabaseReference curDeviceRef;
 
 
     private OnFragmentInteractionListener mListener;
-
     public StatusFragment() {
         // Required empty public constructor
     }
@@ -64,13 +81,15 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
+     * @param dev_id Parameter 1.
+     * @param bottle_qty Parameter 1.
      * @return A new instance of fragment StatusFragment.
      */
-    public static StatusFragment newInstance(String param1) {
+    public static StatusFragment newInstance(String dev_id, float bottle_qty) {
         StatusFragment fragment = new StatusFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_DEV_ID, param1);
+        args.putString(ARG_DEV_ID, dev_id);
+        args.putFloat(ARG_BOTTLE_QTY, bottle_qty);
         fragment.setArguments(args);
         return fragment;
     }
@@ -80,6 +99,9 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             device_id = getArguments().getString(ARG_DEV_ID);
+            bottle_qty = getArguments().getFloat(ARG_BOTTLE_QTY);
+            curDeviceRef = deviceRef.child(device_id+"");
+            Toast.makeText(getActivity(), device_id+"", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -95,6 +117,9 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
         tv_alarm_status = v.findViewById(R.id.tv_alarm_status);
         et_alarm_time = v.findViewById(R.id.et_alarm_time);
 
+        tb_on_off = v.findViewById(R.id.tb_on_off);
+        switch_flow = v.findViewById(R.id.switch_flow);
+
         cb_notify = v.findViewById(R.id.cb_notify);
         cb_notify.setOnClickListener(this);
 
@@ -103,7 +128,33 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
         bt_set_alarm.setOnClickListener(this);
         bt_rem_alarm.setOnClickListener(this);
 
+        switch_flow.setOnClickListener(this);
+        tb_on_off.setOnClickListener(this);
+        curDeviceRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                rate = dataSnapshot.child("rate").getValue(Float.class);
+                ls_reading = dataSnapshot.child("ls_reading").getValue(Float.class);
+                sm_reading = dataSnapshot.child("sm_reading").getValue(Float.class);
+                time_rem_sec = (int) (ls_reading/rate);
+                est_time.add(Calendar.SECOND, time_rem_sec);
+                tv_rate.setText(rate+"");
+                tv_est_time.setText(est_time.getTime().toString()+"");
+                rem_qty_in_ml = ls_reading/density;
+                tv_rem_qty.setText(rem_qty_in_ml+"");
+                Toast.makeText(getActivity(), rem_qty_in_ml+"", Toast.LENGTH_SHORT).show();
+                Boolean on_off_status = dataSnapshot.child("on_off").getValue(Boolean.class);
+                tb_on_off.setChecked(on_off_status!=null ? on_off_status : false);
 
+                switch_flow.setChecked(!(sm_reading <=5.1));
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         return v;
     }
 
@@ -179,6 +230,20 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
 
                 }
                 break;
+
+            case R.id.tb_on_off:
+                curDeviceRef.child("on_off").setValue(tb_on_off.isChecked());
+                break;
+
+
+            case R.id.switch_flow:
+                if(switch_flow.isChecked()) {
+                    curDeviceRef.child("sm_reading").setValue(6);
+                }
+                else{
+                    curDeviceRef.child("sm_reading").setValue(5);
+                }
+
         }
     }
 

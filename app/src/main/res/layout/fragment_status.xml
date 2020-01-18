@@ -153,4 +153,31 @@
         android:textAlignment="center"
         android:text="Alarm not set"/>
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="6"
+            android:text="Switch flow on/off"
+            android:layout_height="wrap_content"
+            />
+        <Switch
+            android:id="@+id/switch_flow"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+
+    <ToggleButton
+        android:id="@+id/tb_on_off"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@android:color/holo_red_light"
+        android:text="Toggle on/off"/>
+
 </LinearLayout>

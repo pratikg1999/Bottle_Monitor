@@ -2,6 +2,7 @@ package com.example.bottle_monitor;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,6 +31,10 @@ import android.view.Menu;
 public class NavActivity extends AppCompatActivity  implements  AddBottleFragment.OnFragmentInteractionListener, StatusFragment.OnFragmentInteractionListener, PasswordDialog.PasswordDialogListener{
     private AppBarConfiguration mAppBarConfiguration;
     public static final String CHANNEL_ID = "NOTIFICATION CHANNEL";
+    SharedPreferences sharedPreferences;
+    public static final String CUR_PATIENT_ID_KEY="CUR_PATIENT_ID_KEY";
+    public static final String CUR_BOTTLE_ID_KEY="CUR_BOTTLE_ID_KEY";
+
     public void createNotificationChannel(){
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -82,6 +87,11 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         createNotificationChannel();
+
+        sharedPreferences = this.getSharedPreferences("com.example.pratik.digitaloutpass", MODE_PRIVATE);
+        Patient.curPatientId = sharedPreferences.getInt(CUR_PATIENT_ID_KEY, 0);
+        Bottle.curBottleId = sharedPreferences.getInt(CUR_BOTTLE_ID_KEY, 0);
+
     }
 
     @Override
