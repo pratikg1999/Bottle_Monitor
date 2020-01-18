@@ -25,9 +25,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.Toast;
 
 
-public class NavActivity extends AppCompatActivity  implements  AddBottleFragment.OnFragmentInteractionListener, StatusFragment.OnFragmentInteractionListener, PasswordDialog.PasswordDialogListener{
+public class NavActivity extends AppCompatActivity  implements  AddBottleFragment.OnFragmentInteractionListener, StatusFragment.OnFragmentInteractionListener{
     private AppBarConfiguration mAppBarConfiguration;
     public static final String CHANNEL_ID = "NOTIFICATION CHANNEL";
     public void createNotificationChannel(){
@@ -108,8 +109,10 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
 
     }
 
-    @Override
-    public void applytexts(String password) {
-
-    }
+//    @Override
+//    public void applytexts(String password) {
+//
+//        Toast.makeText(this,"urhj",Toast.LENGTH_SHORT).show();
+//
+//    }
 }

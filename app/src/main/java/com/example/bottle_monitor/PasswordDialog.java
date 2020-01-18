@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,7 +26,7 @@ public class PasswordDialog extends DialogFragment {
         super.onAttach(context);
 
         try {
-            listener = (PasswordDialogListener) context;
+            listener = (PasswordDialogListener) getTargetFragment();
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "must implemet Password dialog");
         }
@@ -57,7 +58,9 @@ public class PasswordDialog extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         String password = etPass.getText().toString();
+                        Toast.makeText(getContext(), password, Toast.LENGTH_SHORT).show();
                         listener.applytexts(password);
+                        Toast.makeText(getContext(),"ajdsfnkj",Toast.LENGTH_SHORT).show();
                     }
                 });
 
