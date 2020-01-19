@@ -8,7 +8,24 @@
     android:padding="10dp"
     tools:context=".StatusFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Switch device on/off"
+            android:layout_marginHorizontal="10dp"
+            android:layout_height="wrap_content"/>
+        <Switch
+            android:id="@+id/tb_on_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"/>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -172,12 +189,6 @@
             />
     </LinearLayout>
 
-    <ToggleButton
-        android:id="@+id/tb_on_off"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:background="@android:color/holo_red_light"
-        android:text="Toggle on/off"/>
+
 
 </LinearLayout>

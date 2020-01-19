@@ -7,18 +7,24 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+//import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -35,6 +41,7 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
     SharedPreferences sharedPreferences;
     public static final String CUR_PATIENT_ID_KEY="CUR_PATIENT_ID_KEY";
     public static final String CUR_BOTTLE_ID_KEY="CUR_BOTTLE_ID_KEY";
+    DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
     public void createNotificationChannel(){
         NotificationManager notificationManager =
@@ -56,14 +63,14 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
         setContentView(R.layout.activity_nav);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         final NavigationView navigationView = findViewById(R.id.nav_view);
 
@@ -89,10 +96,38 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
         NavigationUI.setupWithNavController(navigationView, navController);
         createNotificationChannel();
 
-        sharedPreferences = this.getSharedPreferences("com.example.pratik.digitaloutpass", MODE_PRIVATE);
+        sharedPreferences = this.getSharedPreferences("com.example.bottle_monitor", MODE_PRIVATE);
         Patient.curPatientId = sharedPreferences.getInt(CUR_PATIENT_ID_KEY, 0);
         Bottle.curBottleId = sharedPreferences.getInt(CUR_BOTTLE_ID_KEY, 0);
 
+        database.child("curPatientId").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int val = dataSnapshot.getValue(Integer.class);
+                Patient.curPatientId = val;
+                sharedPreferences.edit().putInt(CUR_BOTTLE_ID_KEY, val).apply();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        database.child("curBottleId").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int val = dataSnapshot.getValue(Integer.class);
+                Bottle.curBottleId = val;
+                sharedPreferences.edit().putInt(CUR_BOTTLE_ID_KEY, val).apply();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override

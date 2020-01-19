@@ -56,7 +56,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
     Button bt_set_alarm;
     Button bt_rem_alarm;
 
-    ToggleButton tb_on_off;
+    Switch tb_on_off;
     Switch switch_flow;
 
     float rate;
@@ -113,6 +113,19 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    void disableFunctions(){
+        et_alarm_time.setEnabled(false);
+        bt_set_alarm.setEnabled(false);
+        switch_flow.setEnabled(false);
+
+    }
+
+    void enableFunctions(){
+        et_alarm_time.setEnabled(true);
+        bt_set_alarm.setEnabled(true);
+        switch_flow.setEnabled(true);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -138,6 +151,25 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
 
         switch_flow.setOnClickListener(this);
         tb_on_off.setOnClickListener(this);
+
+        curDeviceRef.child("on_off").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Boolean isOnOff = dataSnapshot.getValue(Boolean.class);
+                tb_on_off.setChecked(isOnOff!=null ? isOnOff : false);
+                if(!tb_on_off.isChecked()){
+                    disableFunctions();
+                }
+                else {
+                    enableFunctions();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         curDeviceRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -153,8 +185,8 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                 rem_qty_in_ml = ls_reading/density;
                 tv_rem_qty.setText(rem_qty_in_ml+"");
                 if(rem_qty_in_ml<=1){
-                    et_alarm_time.setEnabled(false);
-                    bt_set_alarm.setEnabled(false);
+//                    et_alarm_time.setEnabled(false);
+//                    bt_set_alarm.setEnabled(false);
                     cb_notify.setChecked(false);
                     cb_notify.setEnabled(false);
                     curDeviceRef.child("on_off").setValue(false);
@@ -165,6 +197,9 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getActivity(), rem_qty_in_ml+"", Toast.LENGTH_SHORT).show();
                 Boolean on_off_status = dataSnapshot.child("on_off").getValue(Boolean.class);
                 tb_on_off.setChecked(on_off_status!=null ? on_off_status : false);
+                if(!tb_on_off.isChecked()){
+                    disableFunctions();
+                }
 
                 switch_flow.setChecked(!(sm_reading <=5.1));
 
@@ -258,7 +293,12 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
 
             case R.id.switch_flow:
                 if(switch_flow.isChecked()) {
-                    curDeviceRef.child("sm_reading").setValue(6);
+                    if(rem_qty_in_ml>4) {
+                        curDeviceRef.child("sm_reading").setValue(6);
+                    }
+                    else{
+                        Toast.makeText(getActivity(), "Can't open on low quantity", Toast.LENGTH_LONG).show();
+                    }
                 }
                 else{
                     curDeviceRef.child("sm_reading").setValue(5);
