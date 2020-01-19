@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:gravity="center"
+    android:padding="10dp"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/et_new_email"
+        android:drawableStart="@drawable/email"
+        android:drawablePadding="5dp"
+        android:hint="Enter email"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/et_old_pass"
+        android:drawableStart="@drawable/password_lock"
+        android:drawablePadding="5dp"
+        android:hint="Enter old password"
+        android:layout_margin="10dp"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/et_new_pass"
+        android:drawableStart="@drawable/password_lock"
+        android:drawablePadding="5dp"
+        android:hint="Enter new password"
+        android:layout_margin="10dp"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/bt_change_credentials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="Change credentials"/>
+
+
+
+</LinearLayout>

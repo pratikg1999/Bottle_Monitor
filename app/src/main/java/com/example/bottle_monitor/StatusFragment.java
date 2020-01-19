@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,8 +109,13 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
         if (getArguments() != null) {
             device_id = getArguments().getString(ARG_DEV_ID);
             bottle_qty = getArguments().getFloat(ARG_BOTTLE_QTY);
+            Log.d("device id", device_id);
             curDeviceRef = deviceRef.child(device_id+"");
             Toast.makeText(getActivity(), device_id+"", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            curDeviceRef = deviceRef.child(device_id+"");
+
         }
     }
 
