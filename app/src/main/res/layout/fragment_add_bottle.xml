@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#FFCDD2"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -17,7 +16,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginTop="5dp"
         android:text="ADD BOTTLE"
-        android:textColor="#ce3232"
+        android:textColor="#000"
         android:textSize="40sp"
         android:typeface="serif" />
 

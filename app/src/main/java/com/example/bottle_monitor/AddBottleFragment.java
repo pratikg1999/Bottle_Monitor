@@ -84,7 +84,6 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -92,6 +91,7 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_add_bottle, container, false);
+
         lDevices = new ArrayList<String>();
         lPatients = new ArrayList<String>();
 //        lDevices.add("1");
