@@ -9,17 +9,19 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link DevicesInUse.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link DevicesInUse#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class DevicesInUse extends Fragment {
+
+    ListView listView;
+    TextView textView;
+    String[] listItem = {"A", "B"} ;
 
     private OnFragmentInteractionListener mListener;
 
@@ -45,7 +47,27 @@ public class DevicesInUse extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_devices_in_use, container, false);
+        View v = inflater.inflate(R.layout.fragment_devices_in_use, container, false);
+
+        listView=(ListView)v.findViewById(R.id.lvDevices);
+        textView=(TextView)v.findViewById(R.id.textView);
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, listItem);
+
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                // TODO Auto-generated method stub
+                String value=adapter.getItem(position);
+                Toast.makeText(getContext(),value,Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+        return v;
     }
 
 
@@ -72,16 +94,7 @@ public class DevicesInUse extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
