@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
@@ -23,10 +24,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -35,8 +40,11 @@ import java.util.Locale;
 public class AddBottleFragment extends Fragment implements PasswordDialog.PasswordDialogListener {
 
     private OnFragmentInteractionListener mListener;
-    String[] lDevices = {"Device 1","Device 2","Device 3","Device 4"};
-    String[] lPatients = {"Patient 1","Patient 2","Patient 3","Patient 4"};
+//    String[] lDevices = {"Device 1","Device 2","Device 3","Device 4"};
+    ArrayList<String> lDevices;
+    int curLenDev;
+//    String[] lPatients = {"Patient 1","Patient 2","Patient 3","Patient 4"};
+    ArrayList<String> lPatients;
     private Button btnSwitchOn;
     private String password;
     private final String passwordSet = "123456";
@@ -45,9 +53,10 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
     DatabaseReference bRef = database.getReference("bottles");
     DatabaseReference curBottleIdRef = database.getReference("curBottleId");
     DatabaseReference dRef = database.getReference("devices");
+    DatabaseReference pRef = database.getReference("patients");
 
-    ArrayAdapter aaDevices;
-    ArrayAdapter aaPatients;
+    ArrayAdapter<String> aaDevices;
+    ArrayAdapter<String> aaPatients;
 
 
 
@@ -83,6 +92,12 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_add_bottle, container, false);
+        lDevices = new ArrayList<String>();
+        lPatients = new ArrayList<String>();
+//        lDevices.add("1");
+
+
+
         etBottleContent = (EditText) v.findViewById(R.id.etBottleContent);
         etBottleQty = (EditText) v.findViewById(R.id.etBottleQty);
         etRoomNo = (EditText) v.findViewById(R.id.etRoomNo);
@@ -95,11 +110,35 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
 
             }
         });
+
+        //Setting the ArrayAdapter data on the Spinner
+
+
         Spinner spDevices = (Spinner) v.findViewById(R.id.spDevice);
+
+
+
+        aaDevices = new ArrayAdapter<String>( getContext() ,android.R.layout.simple_spinner_item, lDevices);
+        dRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    aaDevices.add(ds.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+//        aaDevices.add("1");
+        aaDevices.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spDevices.setAdapter(aaDevices);
         spDevices.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                device_id = lDevices[i];
+                device_id = String.valueOf(adapterView.getItemIdAtPosition(i));
             }
 
             @Override
@@ -107,17 +146,11 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
 
             }
         });
-
-        aaDevices = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item,lDevices);
-        aaDevices.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        spDevices.setAdapter(aaDevices);
-
         Spinner spPatients = (Spinner) v.findViewById(R.id.spPatient);
         spPatients.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                patient_id = lPatients[i];
+                patient_id = String.valueOf(adapterView.getItemIdAtPosition(i));
             }
 
             @Override
@@ -126,7 +159,21 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
             }
         });
 
-        aaPatients = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, lPatients);
+        aaPatients = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, lPatients);
+        pRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                    aaPatients.add(ds.getKey());
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         aaPatients.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spPatients.setAdapter(aaPatients);

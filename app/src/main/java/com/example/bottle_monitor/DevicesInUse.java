@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class DevicesInUse extends Fragment {
@@ -22,6 +24,12 @@ public class DevicesInUse extends Fragment {
     ListView listView;
     TextView textView;
     String[] listItem = {"A", "B"} ;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference dRef = database.getReference("devices");
+
+
+
 
     private OnFragmentInteractionListener mListener;
 

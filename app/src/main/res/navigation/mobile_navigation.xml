@@ -22,5 +22,10 @@
         android:name="com.example.bottle_monitor.StatusFragment"
         android:label="fragment_status"
         tools:layout="@layout/fragment_status" />
+    <fragment
+        android:id="@+id/devicesInUse"
+        android:name="com.example.bottle_monitor.DevicesInUse"
+        android:label="fragment_devices_in_use"
+        tools:layout="@layout/fragment_devices_in_use" />
 
 </navigation>
