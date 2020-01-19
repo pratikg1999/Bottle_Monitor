@@ -76,6 +76,7 @@ public class DevicesInUse extends Fragment {
         dRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                adapter.clear();
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     adapter.add(ds.getKey());
                     devices.add(ds.child(ds.getKey()).getValue(Device.class));
