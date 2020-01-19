@@ -224,6 +224,7 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
             bRef.child(Integer.toString(bottle.getId())).setValue(bottle);
             curBottleIdRef.setValue(Bottle.curBottleId);
             dRef.child(device_id).child("on_off").setValue(true);
+            dRef.child(device_id).child("ls_reading").setValue(etBottleQty.getText().toString());
             Toast.makeText(getContext(),"yes",Toast.LENGTH_SHORT).show();
 
 
