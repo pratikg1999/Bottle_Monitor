@@ -44,6 +44,7 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference bRef = database.getReference("bottles");
     DatabaseReference curBottleIdRef = database.getReference("curBottleId");
+    DatabaseReference dRef = database.getReference("devices");
 
     ArrayAdapter aaDevices;
     ArrayAdapter aaPatients;
@@ -174,6 +175,7 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
 //            bRef.setValue("Test");
             bRef.child(Integer.toString(bottle.getId())).setValue(bottle);
             curBottleIdRef.setValue(Bottle.curBottleId);
+            dRef.child(device_id).child("on_off").setValue(true);
             Toast.makeText(getContext(),"yes",Toast.LENGTH_SHORT).show();
 
             StatusFragment statusFragment = StatusFragment.newInstance(device_id, bottle.getQuantity());
