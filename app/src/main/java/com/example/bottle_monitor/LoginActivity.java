@@ -36,8 +36,8 @@ import android.widget.Toast;
         setContentView(R.layout.activity_login);
 
         sharedPreferences = this.getSharedPreferences("com.example.bottle_monitor", MODE_PRIVATE);
-        actualPassword = sharedPreferences.getString(AC_PASS_KEY, null);
-        userEmail = sharedPreferences.getString(AC_EMAIL_KEY, null);
+        actualPassword = sharedPreferences.getString(AC_PASS_KEY, "");
+        userEmail = sharedPreferences.getString(AC_EMAIL_KEY, "");
         boolean isAlreadyLoggedIn = sharedPreferences.getBoolean(IS_ALREADY_LOGGED_IN_KEY, false);
         if(isAlreadyLoggedIn){
             Toast.makeText(this, "Already logged in", Toast.LENGTH_SHORT).show();
@@ -59,23 +59,24 @@ import android.widget.Toast;
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString();
         //Toast.makeText(getContext(), "Email: "+email, Toast.LENGTH_SHORT).show();
-
-        Toast.makeText(this, sharedPreferences.getString(AC_EMAIL_KEY, "no email"), Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, sharedPreferences.getString(AC_PASS_KEY, "no pass"), Toast.LENGTH_SHORT).show();
+        Log.d("email", "st"+email+"end");
+        Log.d("pass", "st"+email+"end");
+//        Toast.makeText(this, sharedPreferences.getString(AC_EMAIL_KEY, ""), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, sharedPreferences.getString(AC_PASS_KEY, ""), Toast.LENGTH_SHORT).show();
         //Toast.makeText(getContext(), email.length()+"", Toast.LENGTH_SHORT).show();
-        if(email==null || email.length()==0){
-            etEmail.setError("Enter an email");
-            etEmail.requestFocus();
-        }
-        else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            etEmail.setError("Enter a valid email address");
-            etEmail.requestFocus();
-        }
-        else if(password==""){
-            etPassword.setError("Please enter a password");
-            etPassword.requestFocus();
-        }
-        else if(!email.equals(userEmail)){
+//        if(email==null || email.length()==0){
+//            etEmail.setError("Enter an email");
+//            etEmail.requestFocus();
+//        }
+//        else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+//            etEmail.setError("Enter a valid email address");
+//            etEmail.requestFocus();
+//        }
+//        else if(password==""){
+//            etPassword.setError("Please enter a password");
+//            etPassword.requestFocus();
+//        }
+        if(!email.equals(userEmail)){
             etEmail.setError("Wrong email");
         }
         else if (!password.equals(actualPassword)){
