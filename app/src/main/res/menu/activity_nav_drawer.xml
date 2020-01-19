@@ -7,11 +7,11 @@
 
         <item
             android:id="@+id/addBottleFragment"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_add_bottle"
             android:title="Add bottle" />
         <item
             android:id="@+id/statusFragment"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_status"
             android:title="See status" />
         <item
             android:id="@+id/devicesInUse"
