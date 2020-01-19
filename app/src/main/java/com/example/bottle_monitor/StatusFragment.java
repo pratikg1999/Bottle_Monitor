@@ -4,12 +4,15 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +59,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
     EditText et_alarm_time;
     Button bt_set_alarm;
     Button bt_rem_alarm;
+    TextView tv_bottle_status;
 
     Switch tb_on_off;
     Switch switch_flow;
@@ -68,6 +72,12 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
     float density = 1;
     float rem_qty_in_ml;
 
+    float th1  = 250;
+    float th2 = 230 ;
+    int no_of_time_ring = 2;
+
+    MediaPlayer mediaPlayer1;
+    MediaPlayer mediaPlayer2;
     Calendar est_time = Calendar.getInstance();
 
 
@@ -115,8 +125,9 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
         }
         else{
             curDeviceRef = deviceRef.child(device_id+"");
-
         }
+        mediaPlayer1 = MediaPlayer.create(getContext(), R.raw.bottleemptiedsooon);
+        mediaPlayer2 = MediaPlayer.create(getContext(), R.raw.bottleempty);
     }
 
     void disableFunctions(){
@@ -136,13 +147,14 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        NotificationHelper.dispNotification(getActivity(), "test", "successful");
+//        NotificationHelper.dispNotification(getActivity(), "test", "successful");
         View v = inflater.inflate(R.layout.fragment_status, container, false);
         tv_est_time = v.findViewById(R.id.tv_est_time);
         tv_rate = v.findViewById(R.id.tv_rate);
         tv_rem_qty = v.findViewById(R.id.tv_rem_qty);
         tv_alarm_status = v.findViewById(R.id.tv_alarm_status);
         et_alarm_time = v.findViewById(R.id.et_alarm_time);
+        tv_bottle_status = v.findViewById(R.id.tv_bottle_status);
 
         tb_on_off = v.findViewById(R.id.tb_on_off);
         switch_flow = v.findViewById(R.id.switch_flow);
@@ -164,7 +176,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                 Boolean isOnOff = dataSnapshot.getValue(Boolean.class);
                 tb_on_off.setChecked(isOnOff!=null ? isOnOff : false);
                 if(!tb_on_off.isChecked()){
-                    disableFunctions();
+//                    disableFunctions();
                 }
                 else {
                     enableFunctions();
@@ -182,6 +194,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                 rate = dataSnapshot.child("rate").getValue(Float.class);
                 ls_reading = dataSnapshot.child("ls_reading").getValue(Float.class);
                 sm_reading = dataSnapshot.child("sm_reading").getValue(Float.class);
+                rate = rate/60f;
                 rate = rate>0.001f ? rate : 0.001f;
                 time_rem_sec = (int) (ls_reading/rate);
                 est_time = Calendar.getInstance();
@@ -190,22 +203,50 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                 tv_est_time.setText(getFormattedDate(est_time.getTime()));
                 rem_qty_in_ml = ls_reading/density;
                 tv_rem_qty.setText(rem_qty_in_ml+"");
-                if(rem_qty_in_ml<=1){
-//                    et_alarm_time.setEnabled(false);
-//                    bt_set_alarm.setEnabled(false);
-                    cb_notify.setChecked(false);
-                    cb_notify.setEnabled(false);
-                    curDeviceRef.child("on_off").setValue(false);
+//                if(rem_qty_in_ml<=1){
+////                    et_alarm_time.setEnabled(false);
+////                    bt_set_alarm.setEnabled(false);
+//                    cb_notify.setChecked(false);
+//                    cb_notify.setEnabled(false);
+//                    curDeviceRef.child("on_off").setValue(false);
+//                    if(cb_notify.isChecked()){
+//                        NotificationHelper.dispNotification(getActivity(), device_id + " completed", device_id + " bottle is now emptied and turned off");
+//                    }
+//                }
+
+                tv_bottle_status.setText("");
+                tv_bottle_status.setTextColor(Color.BLACK);
+                if(rem_qty_in_ml < th2){
+                    tv_bottle_status.setText("Bottle is empty");
+                    tv_bottle_status.setTextColor(Color.RED);
+
+                    tv_est_time.setText("___");
                     if(cb_notify.isChecked()){
                         NotificationHelper.dispNotification(getActivity(), device_id + " completed", device_id + " bottle is now emptied and turned off");
                     }
+                    for (int i=0;i<no_of_time_ring;i++) {
+//                        Log.d("increment",  "onDataChange: ");
+                        mediaPlayer2.start();
+//                        mediaPlayer2.stop();
+                    }
+//                    mediaPlayer2.stop();
+
                 }
-                Toast.makeText(getActivity(), rem_qty_in_ml+"", Toast.LENGTH_SHORT).show();
+                else if(rem_qty_in_ml < th1){
+                    tv_bottle_status.setText("Bottle will empty soon");
+                    tv_bottle_status.setTextColor(Color.BLUE);
+                    for (int i=0;i<no_of_time_ring;i++) {
+                        mediaPlayer1.start();
+//                        mediaPlayer1.stop();
+                    }
+//                    mediaPlayer1.stop();
+                }
+//                Toast.makeText(getActivity(), rem_qty_in_ml+"", Toast.LENGTH_SHORT).show();
                 Boolean on_off_status = dataSnapshot.child("on_off").getValue(Boolean.class);
                 tb_on_off.setChecked(on_off_status!=null ? on_off_status : false);
-                if(!tb_on_off.isChecked()){
-                    disableFunctions();
-                }
+//                if(!tb_on_off.isChecked()){
+//                    disableFunctions();
+//                }
 
                 switch_flow.setChecked(!(sm_reading <=5.1));
 

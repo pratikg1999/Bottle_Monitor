@@ -189,6 +189,24 @@
             />
     </LinearLayout>
 
+    <TextView
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:text="Status"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+
+        />
+    <TextView
+        android:id="@+id/tv_bottle_status"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:text="Dripping in progress"
+        android:layout_height="match_parent"
+        android:textSize="40sp"
+
+        />
 
 
 </LinearLayout>
