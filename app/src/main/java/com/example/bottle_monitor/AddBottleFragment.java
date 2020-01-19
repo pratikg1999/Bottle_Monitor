@@ -122,7 +122,7 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
         dRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                aaDevices.clear();
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     aaDevices.add(ds.getKey());
                 }
@@ -164,6 +164,7 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
         pRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                aaPatients.clear();
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
                     aaPatients.add(ds.getKey());
                 }
@@ -224,7 +225,7 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
             bRef.child(Integer.toString(bottle.getId())).setValue(bottle);
             curBottleIdRef.setValue(Bottle.curBottleId);
             dRef.child(device_id).child("on_off").setValue(true);
-            dRef.child(device_id).child("ls_reading").setValue(etBottleQty.getText().toString());
+            dRef.child(device_id).child("ls_reading").setValue(bottle.getQuantity());
             Toast.makeText(getContext(),"yes",Toast.LENGTH_SHORT).show();
 
 

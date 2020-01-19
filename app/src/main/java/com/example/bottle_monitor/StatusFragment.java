@@ -126,6 +126,8 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
         else{
             curDeviceRef = deviceRef.child(device_id+"");
         }
+        Log.d("device id", device_id+"");
+//        Toast.makeText(getActivity(), device_id, Toast.LENGTH_SHORT).show();
         mediaPlayer1 = MediaPlayer.create(getContext(), R.raw.bottleemptiedsooon);
         mediaPlayer2 = MediaPlayer.create(getContext(), R.raw.bottleempty);
     }
