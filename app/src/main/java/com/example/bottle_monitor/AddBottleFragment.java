@@ -225,11 +225,12 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
             dRef.child(device_id).child("on_off").setValue(true);
             Toast.makeText(getContext(),"yes",Toast.LENGTH_SHORT).show();
 
-            StatusFragment statusFragment = StatusFragment.newInstance(device_id, bottle.getQuantity());
+
 //            getActivity().getSupportFragmentManager().beginTransaction()
 //                    .replace(R.id.nav_host_fragment, statusFragment, "findThisFragment")
 //                    .addToBackStack(null)
 //                    .commit();
+            StatusFragment statusFragment = StatusFragment.newInstance(device_id, bottle.getQuantity());
             Bundle statusFragmentBundle = new Bundle();
             statusFragmentBundle.putString(StatusFragment.ARG_DEV_ID, device_id);
             statusFragmentBundle.putFloat(StatusFragment.ARG_BOTTLE_QTY, bottle.getQuantity());
