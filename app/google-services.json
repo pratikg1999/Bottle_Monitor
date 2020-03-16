@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "649964743832",
+    "firebase_url": "https://bottle-monitor.firebaseio.com",
+    "project_id": "bottle-monitor",
+    "storage_bucket": "bottle-monitor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649964743832:android:42d2948d29b7a39fe174ed",
+        "android_client_info": {
+          "package_name": "com.example.bottle_monitor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649964743832-c8in3ui9jffqr5b51694547h7ppnfetm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bottle_monitor",
+            "certificate_hash": "f598c277188fc0c06396eef8c491246f18a64537"
+          }
+        },
+        {
+          "client_id": "649964743832-nm2feelih6j9oviiftpt3dikekifh4cm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bottle_monitor",
+            "certificate_hash": "b8442ede2af0ae1712e224d520bfc80f0a3ecbec"
+          }
+        },
+        {
+          "client_id": "649964743832-j6shuu5dp5rk0ejjthdhdd700vl5vti6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEQisfU8wy_GYdwyLhP80FSjzHJu3uy6U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649964743832-j6shuu5dp5rk0ejjthdhdd700vl5vti6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

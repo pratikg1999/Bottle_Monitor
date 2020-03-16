@@ -50,7 +50,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
     public static final String ARG_BOTTLE_QTY = "bottle_qty";
     private String device_id = "1"; //TODO remove default value important
     private Float bottle_qty = 1f; //TODO  may remove default value
-
+    private static final String TAG = "logging";
     TextView tv_rate;
     TextView tv_rem_qty;
     TextView tv_est_time;
@@ -72,14 +72,16 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
     float density = 1;
     float rem_qty_in_ml;
 
-    float th1  = 250;
-    float th2 = 230 ;
+    float th1  = 130;
+    float th2 = 100 ;
     int no_of_time_ring = 2;
 
     MediaPlayer mediaPlayer1;
     MediaPlayer mediaPlayer2;
     Calendar est_time = Calendar.getInstance();
 
+    private int emptySoonCounter =0;
+    private final int EMPTY_SOON_COUNTER_TH = 10;
 
     DatabaseReference deviceRef = FirebaseDatabase.getInstance().getReference("devices");
     DatabaseReference curDeviceRef;
@@ -88,7 +90,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
     private OnFragmentInteractionListener mListener;
 
     static String getFormattedDate(Date date){
-        DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a");
         return  dateFormat.format(date);
 
     }
@@ -191,12 +193,16 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
         curDeviceRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                Log.d(TAG, "onDataChange: "+ dataSnapshot.child("ls_reading").getValue(String.class));
+//                Log.d(TAG, "onDataChange: "+ dataSnapshot.child("sm_reading").getValue(String.class));
+//                Log.d(TAG, "onDataChange: "+ dataSnapshot.child("rate").getValue(String.class));
+
                 rate = dataSnapshot.child("rate").getValue(Float.class);
                 ls_reading = dataSnapshot.child("ls_reading").getValue(Float.class);
                 sm_reading = dataSnapshot.child("sm_reading").getValue(Float.class);
-                rate = rate/60f;
+//                rate = rate/60f;
                 rate = rate>0.001f ? rate : 0.001f;
-                time_rem_sec = (int) (ls_reading/rate);
+                time_rem_sec = (int) ((ls_reading-th2)/rate);
                 est_time = Calendar.getInstance();
                 est_time.add(Calendar.SECOND, time_rem_sec);
                 tv_rate.setText(rate+"");
@@ -235,11 +241,17 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                 else if(rem_qty_in_ml < th1){
                     tv_bottle_status.setText("Bottle will empty soon");
                     tv_bottle_status.setTextColor(Color.BLUE);
-                    for (int i=0;i<no_of_time_ring;i++) {
-                        mediaPlayer1.start();
+                    if(emptySoonCounter<EMPTY_SOON_COUNTER_TH) {
+                        for (int i = 0; i < no_of_time_ring; i++) {
+                            mediaPlayer1.start();
+                            emptySoonCounter+=1;
 //                        mediaPlayer1.stop();
+                        }
                     }
 //                    mediaPlayer1.stop();
+                }
+                else{
+                    emptySoonCounter = 0;
                 }
 //                Toast.makeText(getActivity(), rem_qty_in_ml+"", Toast.LENGTH_SHORT).show();
                 Boolean on_off_status = dataSnapshot.child("on_off").getValue(Boolean.class);
@@ -294,7 +306,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                             int min_bef = Integer.parseInt(min_bef_string);
 
                             Calendar alarmCal  = (Calendar) est_time.clone();
-                            alarmCal.add(Calendar.MINUTE, -min_bef);
+                            alarmCal.add(Calendar.SECOND, -min_bef);
 //                            Calendar cal = Calendar.getInstance();
 //
 //                            cal.setTimeInMillis(System.currentTimeMillis());
@@ -334,6 +346,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.tb_on_off:
+//                Toast.makeText(getActivity(), "clicked on_off", Toast.LENGTH_SHORT).show();
                 curDeviceRef.child("on_off").setValue(tb_on_off.isChecked());
                 break;
 

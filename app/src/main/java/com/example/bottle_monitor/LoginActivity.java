@@ -1,5 +1,6 @@
  package com.example.bottle_monitor;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,14 +18,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
  public class LoginActivity extends AppCompatActivity  implements View.OnClickListener {
 
      SharedPreferences sharedPreferences;
-     String actualPassword;
-     String userEmail;
+     DatabaseReference passRef = FirebaseDatabase.getInstance().getReference("password");
+     public static final String[] PASSWORD = {"abcd"};
+
+//     String actualPassword;
+//     String userEmail;
      public static final String AC_PASS_KEY = "actual password";
      public static final String AC_EMAIL_KEY = "email";
      public static final String IS_ALREADY_LOGGED_IN_KEY = "is already logged in";
+     public static final String PASSWORD_KEY=AC_PASS_KEY;
+
 
      EditText etEmail;
      EditText etPassword;
@@ -34,15 +46,31 @@ import android.widget.Toast;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         sharedPreferences = this.getSharedPreferences("com.example.bottle_monitor", MODE_PRIVATE);
-        actualPassword = sharedPreferences.getString(AC_PASS_KEY, null);
-        userEmail = sharedPreferences.getString(AC_EMAIL_KEY, null);
+        String storedPass = sharedPreferences.getString(PASSWORD_KEY, null);
+        if(storedPass != null){
+            PASSWORD[0] = storedPass;
+        }
+//        actualPassword = sharedPreferences.getString(AC_PASS_KEY, null);
+//        userEmail = sharedPreferences.getString(AC_EMAIL_KEY, null);
         boolean isAlreadyLoggedIn = sharedPreferences.getBoolean(IS_ALREADY_LOGGED_IN_KEY, false);
         if(isAlreadyLoggedIn){
             Toast.makeText(this, "Already logged in", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, NavActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         }
+        passRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                PASSWORD[0] = dataSnapshot.getValue(String.class);
+                sharedPreferences.edit().putString(PASSWORD_KEY, PASSWORD[0]).apply();
+                Toast.makeText(LoginActivity.this, "password: "+ PASSWORD[0], Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         etEmail = findViewById(R.id.etEmailLogin);
         etPassword = findViewById(R.id.etPasswordLogin);
 
@@ -63,22 +91,22 @@ import android.widget.Toast;
         Toast.makeText(this, sharedPreferences.getString(AC_EMAIL_KEY, "no email"), Toast.LENGTH_SHORT).show();
         Toast.makeText(this, sharedPreferences.getString(AC_PASS_KEY, "no pass"), Toast.LENGTH_SHORT).show();
         //Toast.makeText(getContext(), email.length()+"", Toast.LENGTH_SHORT).show();
-        if(email==null || email.length()==0){
-            etEmail.setError("Enter an email");
-            etEmail.requestFocus();
-        }
-        else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            etEmail.setError("Enter a valid email address");
-            etEmail.requestFocus();
-        }
-        else if(password==""){
+//        if(email==null || email.length()==0){
+//            etEmail.setError("Enter an email");
+//            etEmail.requestFocus();
+//        }
+//        else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+//            etEmail.setError("Enter a valid email address");
+//            etEmail.requestFocus();
+//        }
+        if(password==""){
             etPassword.setError("Please enter a password");
             etPassword.requestFocus();
         }
-        else if(!email.equals(userEmail)){
-            etEmail.setError("Wrong email");
-        }
-        else if (!password.equals(actualPassword)){
+//        else if(!email.equals(userEmail)){
+//            etEmail.setError("Wrong email");
+//        }
+        else if (!password.equals(PASSWORD[0])){
             etPassword.setError("Wrong password");
         }
         else {
@@ -118,8 +146,10 @@ import android.widget.Toast;
                 if(oldPass.equals(tempActPass)){
 
                     sharedPreferences.edit().putString(AC_PASS_KEY, newPass).putString(AC_EMAIL_KEY, newEmail).apply();
-                    userEmail = newEmail;
-                    actualPassword = newPass;
+                    PASSWORD[0] = newPass;
+                    passRef.setValue(newPass);
+//                    userEmail = newEmail;
+//                    actualPassword = newPass;
 //                    Toast.makeText(ctx, sharedPreferences.getString(AC_PASS_KEY, "nopass"), Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
                 }
