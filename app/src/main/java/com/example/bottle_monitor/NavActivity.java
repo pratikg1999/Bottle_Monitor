@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -186,8 +187,9 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
         View v = inflater.inflate(R.layout.change_pass_view,null);
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setView(v);
-        dialogBuilder.setTitle("Create credentials");
+        //dialogBuilder.setTitle("Change Password");
         final AlertDialog dialog = dialogBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
         EditText et_new_email = v.findViewById(R.id.et_new_email);

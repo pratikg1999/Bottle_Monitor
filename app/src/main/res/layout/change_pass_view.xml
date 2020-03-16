@@ -3,7 +3,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:gravity="center"
     android:padding="10dp"
+    android:background="@drawable/roundcorner"
     android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_gravity="center"
+        android:text="Change Password"
+        android:textSize="20dp"
+        android:textAppearance="@style/CardView.Dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/et_new_email"
@@ -35,11 +44,14 @@
         android:layout_height="wrap_content"/>
 
     <Button
+        android:background="@drawable/bg_ui"
         android:id="@+id/bt_change_credentials"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:text="Change credentials"/>
+        android:padding="15dp"
+        android:textColor="@color/colorWhite"
+        android:text="Change Password"/>
 
 
 
