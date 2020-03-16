@@ -5,23 +5,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/signup_bg"
     android:gravity="center_horizontal"
     tools:context=".AlarmWakeupScreen">
 
 
-    <TextView
-        android:id="@+id/tv_status"
-        android:hint="status shown here"
+<!--    <TextView-->
+<!--        android:id="@+id/tv_status"-->
+<!--        android:hint="status shown here"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"/>-->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:layout_weight="10">
+
+<!--    <ImageView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/alarm_gif"-->
+<!--        />-->
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/alarm_gif"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:layout_marginBottom="50dp"
+        android:layout_weight="1">
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="40dp"
         android:text="Stop alarm"
+        android:background="@drawable/bg_ui"
         android:id="@+id/b_stop_alarm"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Kill activity"
-        android:id="@+id/b_kill_activity"/>
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Kill activity"-->
+<!--        android:id="@+id/b_kill_activity"/>-->
+    </LinearLayout>
 </LinearLayout>

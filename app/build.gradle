@@ -42,6 +42,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.14.1'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
     // For control over item selection of both touch and mouse driven selection
 
 

@@ -237,6 +237,7 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
             case R.id.logout:
                 sharedPreferences.edit().putBoolean(LoginActivity.IS_ALREADY_LOGGED_IN_KEY, false).apply();
                 startActivity(new Intent(this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                finish();
                 break;
             case R.id.change_pass:
                 changePassword(this);

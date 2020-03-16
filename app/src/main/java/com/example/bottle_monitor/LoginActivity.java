@@ -57,7 +57,9 @@ import com.google.firebase.database.ValueEventListener;
         if(isAlreadyLoggedIn){
             Toast.makeText(this, "Already logged in", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, NavActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            finish();
         }
+
         passRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -112,6 +114,7 @@ import com.google.firebase.database.ValueEventListener;
         else {
             sharedPreferences.edit().putBoolean(IS_ALREADY_LOGGED_IN_KEY, true).apply();
             startActivity(new Intent(this, NavActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            finish();
         }
     }
 
