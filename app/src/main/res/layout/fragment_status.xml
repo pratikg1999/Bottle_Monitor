@@ -150,7 +150,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:layout_weight="1"
-            android:background="@android:color/holo_green_dark"
+            android:background="@drawable/bg_ui"
             android:text="Set alarm" />
 
         <Button
@@ -159,7 +159,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:layout_weight="1"
-            android:background="@android:color/holo_blue_dark"
+            android:background="@drawable/bg_ui"
             android:text="Remove alarm" />
     </LinearLayout>
     <TextView

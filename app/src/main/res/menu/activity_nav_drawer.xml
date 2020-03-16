@@ -13,10 +13,10 @@
             android:id="@+id/statusFragment"
             android:icon="@drawable/ic_status"
             android:title="See status" />
-        <item
-            android:id="@+id/devicesInUse"
-            android:icon="@drawable/ic_devices"
-            android:title="Devices"/>
+<!--        <item-->
+<!--            android:id="@+id/devicesInUse"-->
+<!--            android:icon="@drawable/ic_devices"-->
+<!--            android:title="Devices"/>-->
     </group>
 
 <!--    <item android:title="Communicate">-->
