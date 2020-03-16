@@ -9,7 +9,7 @@
     <fragment
         android:id="@+id/addBottleFragment"
         android:name="com.example.bottle_monitor.AddBottleFragment"
-        android:label="fragment_add_bottle"
+        android:label="Add Drip"
         tools:layout="@layout/fragment_add_bottle" >
         <action
             android:id="@+id/action_addBottleFragment_to_statusFragment"
@@ -20,12 +20,12 @@
     <fragment
         android:id="@+id/statusFragment"
         android:name="com.example.bottle_monitor.StatusFragment"
-        android:label="fragment_status"
+        android:label="Dashboard"
         tools:layout="@layout/fragment_status" />
-    <fragment
-        android:id="@+id/devicesInUse"
-        android:name="com.example.bottle_monitor.DevicesInUse"
-        android:label="fragment_devices_in_use"
-        tools:layout="@layout/fragment_devices_in_use" />
+<!--    <fragment-->
+<!--        android:id="@+id/devicesInUse"-->
+<!--        android:name="com.example.bottle_monitor.DevicesInUse"-->
+<!--        android:label="fragment_devices_in_use"-->
+<!--        tools:layout="@layout/fragment_devices_in_use" />-->
 
 </navigation>
