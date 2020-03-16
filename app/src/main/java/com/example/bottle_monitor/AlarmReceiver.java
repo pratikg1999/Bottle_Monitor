@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.util.Log;
 
 public class AlarmReceiver extends BroadcastReceiver {
     public static Ringtone r;
@@ -25,7 +26,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         player.setOnCompletionListener(mediaPlayer -> {
             count[0]+=1;
             if(count[0]<COUNT_TH){
-                player.stop();
+//                Log.d("abcd", "onReceive: "+ count[0]);
+//                player.stop();
                 player.start();
             }
         });
