@@ -215,10 +215,11 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
                 Log.d("oldPass", oldPass);
                 newEmail = newEmail!=null ? newEmail : "";
                 oldPass = oldPass!=null ? oldPass : "";
+                oldPass = AES.encrypt(oldPass, AES.SECRET_KEY);
                 Log.d("password abcd", oldPass + " " + tempActPass);
                 Log.d("password abcde", sharedPreferences.getString(PASSWORD_KEY, ""+"E"));
                 if(oldPass.equals(tempActPass)){
-
+                    newPass = AES.encrypt(newPass, AES.SECRET_KEY);
                     sharedPreferences.edit().putString(PASSWORD_KEY, newPass).putString(LoginActivity.AC_EMAIL_KEY, newEmail).apply();
                     PASSWORD[0] = newPass;
                     passRef.setValue(newPass);

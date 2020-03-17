@@ -67,7 +67,8 @@ import com.google.firebase.database.ValueEventListener;
         String storedPass = sharedPreferences.getString(PASSWORD_KEY, null);
         if(storedPass != null){
             PASSWORD[0] = storedPass;
-            setHtmlText(tv_show_pass_proto, "For the prototype, current password is <span style=\"background-color: #FFFF00\"><b>"+PASSWORD[0]+"</b></span>");
+            String decryptedPass = AES.decrypt(PASSWORD[0], AES.SECRET_KEY);
+            setHtmlText(tv_show_pass_proto, "For the prototype, current password is <span style=\"background-color: #FFFF00\"><b>"+decryptedPass+"</b></span>");
         }
 //        actualPassword = sharedPreferences.getString(AC_PASS_KEY, null);
 //        userEmail = sharedPreferences.getString(AC_EMAIL_KEY, null);
@@ -84,7 +85,8 @@ import com.google.firebase.database.ValueEventListener;
                 PASSWORD[0] = dataSnapshot.getValue(String.class);
                 sharedPreferences.edit().putString(PASSWORD_KEY, PASSWORD[0]).apply();
                 Toast.makeText(LoginActivity.this, "password: "+ PASSWORD[0], Toast.LENGTH_SHORT).show();
-                setHtmlText(tv_show_pass_proto, "For the prototype, current password is <span style=\"background-color: #FFFF00\"><b>"+PASSWORD[0]+"</b></span>");
+                String decryptedPass = AES.decrypt(PASSWORD[0], AES.SECRET_KEY);
+                setHtmlText(tv_show_pass_proto, "For the prototype, current password is <span style=\"background-color: #FFFF00\"><b>"+decryptedPass+"</b></span>");
             }
 
             @Override
@@ -110,7 +112,7 @@ import com.google.firebase.database.ValueEventListener;
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString();
         //Toast.makeText(getContext(), "Email: "+email, Toast.LENGTH_SHORT).show();
-
+        String encPassword = AES.encrypt(password, AES.SECRET_KEY);
         Toast.makeText(this, sharedPreferences.getString(AC_EMAIL_KEY, "no email"), Toast.LENGTH_SHORT).show();
         Toast.makeText(this, sharedPreferences.getString(AC_PASS_KEY, "no pass"), Toast.LENGTH_SHORT).show();
         //Toast.makeText(getContext(), email.length()+"", Toast.LENGTH_SHORT).show();
@@ -129,7 +131,7 @@ import com.google.firebase.database.ValueEventListener;
 //        else if(!email.equals(userEmail)){
 //            etEmail.setError("Wrong email");
 //        }
-        else if (!password.equals(PASSWORD[0])){
+        else if (!encPassword.equals(PASSWORD[0])){
             etPassword.setError("Wrong password");
         }
         else {
@@ -165,10 +167,11 @@ import com.google.firebase.database.ValueEventListener;
                 Log.d("oldPass", oldPass);
                 newEmail = newEmail!=null ? newEmail : "";
                 oldPass = oldPass!=null ? oldPass : "";
+                oldPass = AES.encrypt(oldPass, AES.SECRET_KEY);
                 Log.d("password abcd", oldPass + " " + tempActPass);
                 Log.d("password abcde", sharedPreferences.getString(AC_PASS_KEY, ""+"E"));
                 if(oldPass.equals(tempActPass)){
-
+                    newPass = AES.encrypt(newPass, AES.SECRET_KEY);
                     sharedPreferences.edit().putString(AC_PASS_KEY, newPass).putString(AC_EMAIL_KEY, newEmail).apply();
                     PASSWORD[0] = newPass;
                     passRef.setValue(newPass);
