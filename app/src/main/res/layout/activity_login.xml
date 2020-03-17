@@ -25,6 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/tv_login_title"
             android:layout_marginLeft="25dp"
             android:text="Smart IV Bottle"
             android:textColor="@color/colorWhite"
@@ -129,11 +130,19 @@
 
 
         <TextView
+            android:id="@+id/tv_show_pass_proto"
+            android:text="As this prototype. Enter the password- "
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"/>
+        <TextView
             android:id="@+id/tv_change_pass"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Forgot your password?"
+            android:text="Change password?"
             android:textSize="14sp" />
         <TextView
             android:layout_marginTop="20dp"

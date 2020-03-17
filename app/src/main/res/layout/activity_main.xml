@@ -24,6 +24,7 @@
         </ImageView>
 
         <TextView
+            android:id="@+id/tv_splash_title"
             android:layout_margin="10dp"
             android:layout_gravity="center"
             android:text="Smart IV Bottle"

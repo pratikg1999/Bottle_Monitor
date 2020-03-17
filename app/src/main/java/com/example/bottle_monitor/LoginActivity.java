@@ -10,7 +10,9 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -43,15 +45,29 @@ import com.google.firebase.database.ValueEventListener;
      EditText etEmail;
      EditText etPassword;
      TextView tv_change_pass;
+     TextView tv_login_title;
+     TextView tv_show_pass_proto;
      Button bLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        tv_change_pass = findViewById(R.id.tv_change_pass);
+        tv_change_pass.setPaintFlags(tv_change_pass.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        tv_change_pass.setOnClickListener(this);
+        tv_show_pass_proto = findViewById(R.id.tv_show_pass_proto);
+        tv_login_title = findViewById(R.id.tv_login_title);
+        bLogin = findViewById(R.id.bLogin);
+
+        etEmail = findViewById(R.id.etEmailLogin);
+        etPassword = findViewById(R.id.etPasswordLogin);
+
+
         sharedPreferences = this.getSharedPreferences("com.example.bottle_monitor", MODE_PRIVATE);
         String storedPass = sharedPreferences.getString(PASSWORD_KEY, null);
         if(storedPass != null){
             PASSWORD[0] = storedPass;
+            setHtmlText(tv_show_pass_proto, "For the prototype, current password is <span style=\"background-color: #FFFF00\"><b>"+PASSWORD[0]+"</b></span>");
         }
 //        actualPassword = sharedPreferences.getString(AC_PASS_KEY, null);
 //        userEmail = sharedPreferences.getString(AC_EMAIL_KEY, null);
@@ -68,6 +84,7 @@ import com.google.firebase.database.ValueEventListener;
                 PASSWORD[0] = dataSnapshot.getValue(String.class);
                 sharedPreferences.edit().putString(PASSWORD_KEY, PASSWORD[0]).apply();
                 Toast.makeText(LoginActivity.this, "password: "+ PASSWORD[0], Toast.LENGTH_SHORT).show();
+                setHtmlText(tv_show_pass_proto, "For the prototype, current password is <span style=\"background-color: #FFFF00\"><b>"+PASSWORD[0]+"</b></span>");
             }
 
             @Override
@@ -75,18 +92,20 @@ import com.google.firebase.database.ValueEventListener;
 
             }
         });
-        etEmail = findViewById(R.id.etEmailLogin);
-        etPassword = findViewById(R.id.etPasswordLogin);
+        setHtmlText(tv_login_title, "<h6>Liqu<<font color=\"red\">IV</font>ics</h6>");
 
-        tv_change_pass = findViewById(R.id.tv_change_pass);
-        tv_change_pass.setPaintFlags(tv_change_pass.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        tv_change_pass.setOnClickListener(this);
-        bLogin = findViewById(R.id.bLogin);
 
         bLogin.setOnClickListener(this);
     }
 
 
+    public static void setHtmlText(TextView tv, String html){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            tv.setText(Html.fromHtml(html, Html.FROM_HTML_MODE_COMPACT));
+        } else {
+            tv.setText(Html.fromHtml(html));
+        }
+    }
     void login(){
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString();
