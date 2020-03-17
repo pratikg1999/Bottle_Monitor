@@ -57,9 +57,6 @@
                             android:textColor="@color/colorPurple"
                             android:textSize="14sp"
                             android:textStyle="bold" />
-
-                        />
-
                         <Spinner
                             android:layout_gravity="center"
                             android:id="@+id/spDevice"
