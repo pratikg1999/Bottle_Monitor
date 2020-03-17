@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 //import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,10 +53,12 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
     public static final String PASSWORD_KEY=LoginActivity.AC_PASS_KEY;
     DatabaseReference database = FirebaseDatabase.getInstance().getReference();
     DatabaseReference passRef = FirebaseDatabase.getInstance().getReference("password");
+    DatabaseReference usernameRef = FirebaseDatabase.getInstance().getReference("username");
 
     private FirebaseAuth firebaseAuth;
 
     public static final String[] PASSWORD = LoginActivity.PASSWORD;
+    public static final String[] USERNAME = LoginActivity.USERNAME;
     public void createNotificationChannel(){
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -134,6 +135,21 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
 
             }
         });
+
+        usernameRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                USERNAME[0] = dataSnapshot.getValue(String.class);
+                sharedPreferences.edit().putString(LoginActivity.USERNAME_KEY, USERNAME[0]).apply();
+                Toast.makeText(NavActivity.this, "password: "+ USERNAME[0], Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         database.child("curPatientId").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -198,7 +214,7 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
-        EditText et_new_email = v.findViewById(R.id.et_new_email);
+        EditText et_new_username = v.findViewById(R.id.et_new_username);
         EditText et_old_password = v.findViewById(R.id.et_old_pass);
         EditText et_new_password = v.findViewById(R.id.et_new_pass);
         Button bt_change_credentials = v.findViewById(R.id.bt_change_credentials);
@@ -207,20 +223,21 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
         bt_change_credentials.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String newEmail = et_new_email.getText().toString();
+                String newUsername = et_new_username.getText().toString();
                 String oldPass = et_old_password.getText().toString();
                 String newPass = et_new_password.getText().toString();
 
                 String tempActPass = sharedPreferences.getString(PASSWORD_KEY, "");
                 Log.d("oldPass", oldPass);
-                newEmail = newEmail!=null ? newEmail : "";
+                newUsername = newUsername!=null ? newUsername : "";
                 oldPass = oldPass!=null ? oldPass : "";
                 oldPass = AES.encrypt(oldPass, AES.SECRET_KEY);
                 Log.d("password abcd", oldPass + " " + tempActPass);
                 Log.d("password abcde", sharedPreferences.getString(PASSWORD_KEY, ""+"E"));
                 if(oldPass.equals(tempActPass)){
                     newPass = AES.encrypt(newPass, AES.SECRET_KEY);
-                    sharedPreferences.edit().putString(PASSWORD_KEY, newPass).putString(LoginActivity.AC_EMAIL_KEY, newEmail).apply();
+                    sharedPreferences.edit().putString(PASSWORD_KEY, newPass).putString(LoginActivity.USERNAME_KEY, newUsername).apply();
+                    usernameRef.setValue(newUsername);
                     PASSWORD[0] = newPass;
                     passRef.setValue(newPass);
 //                    userEmail = newEmail;

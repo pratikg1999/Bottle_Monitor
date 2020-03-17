@@ -73,7 +73,7 @@
 
                     <EditText
                         android:drawableStart="@drawable/email"
-                        android:id="@+id/etEmailLogin"
+                        android:id="@+id/etUsernameLogin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -128,6 +128,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
+        <TextView
+            android:id="@+id/tv_show_username_proto"
+            android:text="As this prototype. Enter the username- "
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/tv_show_pass_proto"

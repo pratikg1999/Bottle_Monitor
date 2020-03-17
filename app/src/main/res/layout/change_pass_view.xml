@@ -15,10 +15,10 @@
         android:layout_height="wrap_content"/>
 
     <EditText
-        android:id="@+id/et_new_email"
+        android:id="@+id/et_new_username"
         android:drawableStart="@drawable/email"
         android:drawablePadding="5dp"
-        android:hint="Enter email"
+        android:hint="Enter username"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
