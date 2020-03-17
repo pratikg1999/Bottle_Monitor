@@ -2,8 +2,12 @@ package com.example.bottle_monitor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -19,38 +23,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new Thread(new SocketThread()).start();
-    }
+        ImageView logo=findViewById(R.id.splashlogo);
 
-class SocketThread implements  Runnable{
-
-    Socket s;
-//    ServerSocket ss;
-    InputStreamReader inputStreamReader;
-    BufferedReader bufferedReader;
-    Handler h = new Handler();
-    @Override
-    public void run() {
-        try {
-//            ss = new ServerSocket(7801);
-            s = new Socket("192.168.0.106", 7800);
-            inputStreamReader = new InputStreamReader(s.getInputStream());
-            bufferedReader = new BufferedReader(inputStreamReader);
-            while(true) {
-                final String message = bufferedReader.readLine();
-                Thread.sleep(2000);
-                h.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                    }
-                });
+        Animation animation= AnimationUtils.loadAnimation(getBaseContext(),R.anim.rotation);
+        logo.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
             }
-        }
-        catch(IOException | InterruptedException e){
-            e.printStackTrace();
-        }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                finish();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+
 
     }
-}
+
+
 }

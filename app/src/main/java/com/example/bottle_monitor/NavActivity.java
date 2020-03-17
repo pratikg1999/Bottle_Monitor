@@ -26,6 +26,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,6 +44,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+
 public class NavActivity extends AppCompatActivity  implements  AddBottleFragment.OnFragmentInteractionListener, StatusFragment.OnFragmentInteractionListener, DevicesInUse.OnFragmentInteractionListener{
     private AppBarConfiguration mAppBarConfiguration;
     public static final String CHANNEL_ID = "NOTIFICATION CHANNEL";
@@ -52,6 +54,8 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
     public static final String PASSWORD_KEY=LoginActivity.AC_PASS_KEY;
     DatabaseReference database = FirebaseDatabase.getInstance().getReference();
     DatabaseReference passRef = FirebaseDatabase.getInstance().getReference("password");
+
+    private FirebaseAuth firebaseAuth;
 
     public static final String[] PASSWORD = LoginActivity.PASSWORD;
     public void createNotificationChannel(){
@@ -74,6 +78,8 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
         setContentView(R.layout.activity_nav);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        firebaseAuth=FirebaseAuth.getInstance();
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -239,6 +245,7 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
             case R.id.logout:
                 sharedPreferences.edit().putBoolean(LoginActivity.IS_ALREADY_LOGGED_IN_KEY, false).apply();
                 startActivity(new Intent(this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                firebaseAuth.signOut();
                 finish();
                 break;
             case R.id.change_pass:

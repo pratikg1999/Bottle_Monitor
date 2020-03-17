@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"/>
         <TextView
             android:layout_marginLeft="25dp"
-            android:text="Smart Bottle"
+            android:text="Smart IV Bottle"
             android:textColor="@color/colorWhite"
             android:textSize="35dp"
             android:textStyle="bold"
