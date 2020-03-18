@@ -59,7 +59,19 @@ public class PatientsFragment extends Fragment {
     TextView tv_no_patients;
 
     HashMap<Integer, Patient> patients = new HashMap<Integer, Patient>();
-    ArrayList<Patient> patientList = new ArrayList<Patient>();
+    ArrayList<Patient> patientList = new ArrayList<Patient>(){
+        @Override
+        public int indexOf(@Nullable Object o) {
+            if(o instanceof Patient) {
+                o = (Patient)o;
+                for (int i = 0; i < this.size(); i++)
+                    if (this.get(i).getId() == ((Patient) o).getId())
+                        return i;
+                return -1;
+            }
+            return -1;
+        }
+    };
 //    ArrayList<Integer> keys = new ArrayList<Integer>();
     DatabaseReference patientsRef = FirebaseDatabase.getInstance().getReference("patients");
 DatabaseReference curPatientRef = FirebaseDatabase.getInstance().getReference("curPatientId");

@@ -12,9 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
+public class MainActivity extends AppCompatActivity
+        implements ConnectivityReceiver.ConnectivityReceiverListener
+{
 
     TextView tv_splash_title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +30,9 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
         } else {
             tv_splash_title.setText(Html.fromHtml("<h4>Liqu<<font color=\"red\">IV</font>ics</h4>"));
         }
-        ImageView logo=findViewById(R.id.splashlogo);
+        ImageView logo = findViewById(R.id.splashlogo);
 
-        Animation animation= AnimationUtils.loadAnimation(getBaseContext(),R.anim.rotation);
+        Animation animation = AnimationUtils.loadAnimation(getBaseContext(), R.anim.rotation);
         logo.startAnimation(animation);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -38,8 +41,8 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
 
             @Override
             public void onAnimationEnd(Animation animation) {
-//                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
-//                finish();
+                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                finish();
             }
 
             @Override
@@ -47,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
 
             }
         });
-
 
 
     }
