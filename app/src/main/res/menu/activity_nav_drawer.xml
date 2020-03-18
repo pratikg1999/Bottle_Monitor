@@ -8,11 +8,15 @@
         <item
             android:id="@+id/addBottleFragment"
             android:icon="@drawable/ic_add_bottle"
-            android:title="Add bottle" />
+            android:title="Add drip" />
         <item
             android:id="@+id/statusFragment"
             android:icon="@drawable/ic_status"
             android:title="See status" />
+        <item
+            android:id="@+id/patientsFragment"
+            android:icon="@drawable/logout"
+            android:title="Patients" />
 <!--        <item-->
 <!--            android:id="@+id/devicesInUse"-->
 <!--            android:icon="@drawable/ic_devices"-->

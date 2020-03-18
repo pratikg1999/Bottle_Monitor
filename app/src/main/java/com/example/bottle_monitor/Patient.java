@@ -1,5 +1,8 @@
 package com.example.bottle_monitor;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 
 public class Patient {
@@ -8,13 +11,13 @@ public class Patient {
     private int id;
     public static int curPatientId = 0;
 
-    ArrayList<String> bottles = new ArrayList<String>();
+    ArrayList<Integer> bottles = new ArrayList<Integer>();
 
     public Patient(){
 
     }
 
-    public Patient(String name, String diseaseName, ArrayList<String> bottles) {
+    public Patient(String name, String diseaseName, ArrayList<Integer> bottles) {
         this.name = name;
         this.diseaseName = diseaseName;
         this.bottles = bottles;
@@ -29,7 +32,27 @@ public class Patient {
         return diseaseName;
     }
 
-    public ArrayList<String> getBottles() {
+    public ArrayList<Integer> getBottles() {
         return bottles;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if(obj instanceof Patient){
+            if(this.id == ((Patient) obj).getId()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return this.id +" " + this.name + " "+ this.diseaseName;
     }
 }

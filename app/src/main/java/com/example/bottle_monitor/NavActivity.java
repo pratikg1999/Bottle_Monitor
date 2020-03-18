@@ -44,7 +44,7 @@ import android.widget.Toast;
 
 
 
-public class NavActivity extends AppCompatActivity  implements  AddBottleFragment.OnFragmentInteractionListener, StatusFragment.OnFragmentInteractionListener, DevicesInUse.OnFragmentInteractionListener{
+public class NavActivity extends AppCompatActivity  implements  AddBottleFragment.OnFragmentInteractionListener, StatusFragment.OnFragmentInteractionListener, DevicesInUse.OnFragmentInteractionListener, PatientsFragment.OnFragmentInteractionListener{
     private AppBarConfiguration mAppBarConfiguration;
     public static final String CHANNEL_ID = "NOTIFICATION CHANNEL";
     SharedPreferences sharedPreferences;
@@ -106,7 +106,7 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.addBottleFragment, R.id.statusFragment)
+                R.id.addBottleFragment, R.id.statusFragment, R.id.patientsFragment)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
