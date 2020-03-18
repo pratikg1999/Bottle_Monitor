@@ -27,7 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
- public class LoginActivity extends AppCompatActivity  implements View.OnClickListener {
+ public class LoginActivity extends AppCompatActivity  implements View.OnClickListener{
 
      SharedPreferences sharedPreferences;
      DatabaseReference passRef = FirebaseDatabase.getInstance().getReference("password");
@@ -221,4 +221,5 @@ import com.google.firebase.database.ValueEventListener;
                 break;
         }
      }
+
  }
