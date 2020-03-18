@@ -3,16 +3,26 @@
     package="com.example.bottle_monitor">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/splash_screen_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <receiver
+            android:name=".ConnectivityReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
 
         <activity android:name=".AlarmWakeupScreen"
             android:theme="@style/AppTheme.FullScreen">
@@ -54,6 +64,8 @@
         </activity>
 
         <receiver android:name=".AlarmReceiver" />
+
+
     </application>
 
 </manifest>

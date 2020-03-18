@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Html;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -13,19 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.ServerSocket;
-import java.net.Socket;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
 
     TextView tv_splash_title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         tv_splash_title = findViewById(R.id.tv_splash_title);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -44,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
-                finish();
+//                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+//                finish();
             }
 
             @Override
@@ -59,4 +53,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // register connection status listener
+        MyApplication.getInstance().setConnectivityListener(this);
+    }
+
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+
+        boolean a= ConnectivityReceiver.isConnected();
+        Toast.makeText(getApplicationContext(),"Connected",Toast.LENGTH_SHORT).show();
+    }
 }
