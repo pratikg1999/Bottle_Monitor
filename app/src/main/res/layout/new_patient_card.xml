@@ -1,65 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@drawable/border"
     android:layout_height="wrap_content">
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:elevation="10dp"
+            android:text="Add Patient"
+            android:textColor="#E91E63"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Patient" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:text="Name"
+            android:textColor="@color/colorPurple"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:text="Name"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/et_patient_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Ramesh"
-                android:inputType="textPersonName" />
-        </LinearLayout>
-        <LinearLayout
+        <EditText
+            android:id="@+id/et_patient_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:hint="Mr.Lucid"
+            android:inputType="text" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:text="Disease"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/et_patient_disease"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Cold"
-                android:inputType="textPersonName" />
-        </LinearLayout>
-        <Button
-            android:id="@+id/b_add_patient"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add"/>
+            android:layout_margin="10dp"
+            android:text="Disease"
+            android:textColor="@color/colorPurple"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:hint="Cold"
+            android:id="@+id/et_patient_disease"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/b_add_patient"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_ui"
+            android:text="Add"
+            android:textColor="@color/colorWhite" />
+
+
+
+
+
     </LinearLayout>
+
+
+
 </androidx.cardview.widget.CardView>

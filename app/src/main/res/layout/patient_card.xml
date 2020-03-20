@@ -3,57 +3,69 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:background="@color/colorPurple"
-    app:cardCornerRadius="22sp"
-    app:cardElevation="12dp"
-    app:contentPadding="10dp">
+    android:layout_margin="5dp"
+    app:cardCornerRadius="10sp"
+    app:cardElevation="2dp"
+    app:contentPadding="2dp">
 
     <LinearLayout
+        android:background="@drawable/border"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp">
 
         <LinearLayout
+            android:padding="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="0dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:textSize="15dp"
+                android:textColor="@color/colorPurple"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Name"/>
+                android:text="Name     :"/>
 
             <TextView
+                android:textSize="15dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:textColor="#000"
                 android:id="@+id/tv_patient_name"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_weight="2"
-                android:text="Name of the patient"
+                android:text="Patient Name"
                 android:textAlignment="textEnd" />
         </LinearLayout>
 
         <LinearLayout
+            android:padding="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="0dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:textSize="15dp"
+                android:textColor="@color/colorPurple"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Disease"/>
+                android:text="Disease :"/>
 
             <TextView
+                android:fontFamily="sans-serif-smallcaps"
+                android:textSize="15dp"
+                android:textColor="#000"
                 android:id="@+id/tv_patient_disease"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_weight="2"
-                android:text="Name of the patient"
+                android:text="Disease Name"
                 android:textAlignment="textEnd" />
         </LinearLayout>
     </LinearLayout>

@@ -2,6 +2,8 @@ package com.example.bottle_monitor;
 
 import android.content.Context;
 import android.content.ReceiverCallNotAllowedException;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -18,7 +20,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -266,8 +271,8 @@ DatabaseReference curPatientRef = FirebaseDatabase.getInstance().getReference("c
         View v = inflater.inflate(R.layout.new_patient_card,null);
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
         dialogBuilder.setView(v);
-        dialogBuilder.setTitle("Create new outpass");
         final AlertDialog dialog = dialogBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
         EditText et_patient_name = v.findViewById(R.id.et_patient_name);
@@ -277,10 +282,32 @@ DatabaseReference curPatientRef = FirebaseDatabase.getInstance().getReference("c
         b_add_patient.setOnClickListener(view -> {
             String name = et_patient_name.getText().toString();
             String diseaseName = et_patient_disease.getText().toString();
+
+            if(name.isEmpty()){
+                et_patient_name.setError("Enter valid name");
+                et_patient_name.requestFocus();
+                return;
+            }
+            else if (diseaseName.isEmpty()){
+                et_patient_disease.setError("Not valid!!");
+                et_patient_disease.requestFocus();
+                return;
+
+            }
             Patient newPatient = new Patient(name, diseaseName, null);
             patientsRef.child(""+newPatient.getId()).setValue(newPatient);
-            curPatientRef.setValue(Patient.curPatientId);
-            dialog.dismiss();
+            curPatientRef.setValue(Patient.curPatientId).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(getContext(),"Added successfully",Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    }
+                    else {
+                        Toast.makeText(getContext(),"Failed",Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
         });
     }
 }

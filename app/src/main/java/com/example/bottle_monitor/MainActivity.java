@@ -23,6 +23,11 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        TextView title=findViewById(R.id.tv_splash_title);
+        TextView title1=findViewById(R.id.tv_splash_dev1);
+        TextView title2=findViewById(R.id.tv_splash_dev2);
+
+
 
         tv_splash_title = findViewById(R.id.tv_splash_title);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -68,6 +73,5 @@ public class MainActivity extends AppCompatActivity
     public void onNetworkConnectionChanged(boolean isConnected) {
 
         boolean a= ConnectivityReceiver.isConnected();
-        Toast.makeText(getApplicationContext(),"Connected",Toast.LENGTH_SHORT).show();
     }
 }
