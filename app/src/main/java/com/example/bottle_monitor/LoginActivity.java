@@ -95,7 +95,7 @@ import com.google.firebase.database.ValueEventListener;
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 PASSWORD[0] = dataSnapshot.getValue(String.class);
                 sharedPreferences.edit().putString(PASSWORD_KEY, PASSWORD[0]).apply();
-                Toast.makeText(LoginActivity.this, "password: "+ PASSWORD[0], Toast.LENGTH_SHORT).show();
+//                Toast.makeText(LoginActivity.this, "password: "+ PASSWORD[0], Toast.LENGTH_SHORT).show();
                 String decryptedPass = AES.decrypt(PASSWORD[0], AES.SECRET_KEY);
                 setHtmlText(tv_show_pass_proto, "For the prototype, current password is <span style=\"background-color: #FFFF00\"><b>"+decryptedPass+"</b></span>");
             }
@@ -110,7 +110,7 @@ import com.google.firebase.database.ValueEventListener;
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 USERNAME[0] = dataSnapshot.getValue(String.class);
                 sharedPreferences.edit().putString(USERNAME_KEY, USERNAME[0]).apply();
-                Toast.makeText(LoginActivity.this, "username: "+ USERNAME[0], Toast.LENGTH_SHORT).show();
+//                Toast.makeText(LoginActivity.this, "username: "+ USERNAME[0], Toast.LENGTH_SHORT).show();
                 setHtmlText(tv_show_username_proto, "For the prototype, current username is <span style=\"background-color: #FFFF00\"><b>"+USERNAME[0]+"</b></span>");
             }
 
@@ -141,11 +141,11 @@ import com.google.firebase.database.ValueEventListener;
         Toast.makeText(this, sharedPreferences.getString(USERNAME_KEY, "no username"), Toast.LENGTH_SHORT).show();
         Toast.makeText(this, sharedPreferences.getString(AC_PASS_KEY, "no pass"), Toast.LENGTH_SHORT).show();
         //Toast.makeText(getContext(), email.length()+"", Toast.LENGTH_SHORT).show();
-        if(username==null || username.length()==0){
+        if(username.isEmpty() || username.length()==0){
             etUsername.setError("Enter an username");
             etUsername.requestFocus();
         }
-        if(password==""){
+        if(password.isEmpty()){
             etPassword.setError("Please enter a password");
             etPassword.requestFocus();
         }

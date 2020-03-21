@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="#287ADF"
+    android:background="@drawable/navigation_logo"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -22,13 +22,19 @@
 <!--        app:srcCompat="@drawable/person_image" />-->
 
     <TextView
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="#000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Smart Bottle"
+        android:text="LiquIVics"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:textColor="#000"
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

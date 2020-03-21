@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    app:cardCornerRadius="10sp"
+    app:cardCornerRadius="10dp"
     app:cardElevation="2dp"
     app:contentPadding="2dp">
 
     <LinearLayout
-        android:background="@drawable/border"
+        android:background="@drawable/patient_detail_card_roundcorner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"

@@ -16,7 +16,7 @@
         <item
             android:id="@+id/patientsFragment"
             android:icon="@drawable/logout"
-            android:title="Patients" />
+            android:title="Patient Details" />
 <!--        <item-->
 <!--            android:id="@+id/devicesInUse"-->
 <!--            android:icon="@drawable/ic_devices"-->
