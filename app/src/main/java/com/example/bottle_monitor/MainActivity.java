@@ -3,9 +3,12 @@ package com.example.bottle_monitor;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -23,7 +26,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        getApplicationContext().registerReceiver(new ConnectivityReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         flag=checkConnectivity();
 
         TextView title=findViewById(R.id.tv_splash_title);
@@ -50,15 +53,15 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onAnimationEnd(Animation animation) {
 
-                if (flag){
+//                if (flag){
                     startActivity(new Intent(getApplicationContext(),LoginActivity.class));
                    finish();
-                }
-                else {
-                    title.setText("Internet Unavailable!");
-                    title1.setText("Please connect to Internet");
-                    title2.setText("& restart the app");
-                }
+//                }
+//                else {
+//                    title.setText("Internet Unavailable!");
+//                    title1.setText("Please connect to Internet");
+//                    title2.setText("& restart the app");
+//                }
 
 
             }
@@ -88,8 +91,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
-
+        Log.d("aboutcon", "onNetworkConnectionChanged: " + ConnectivityReceiver.isConnected());
         flag= ConnectivityReceiver.isConnected();
+
 
     }
 }

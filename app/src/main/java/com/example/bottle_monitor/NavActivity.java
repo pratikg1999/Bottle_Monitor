@@ -1,5 +1,6 @@
 package com.example.bottle_monitor;
 
+import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -38,13 +40,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 
 
-public class NavActivity extends AppCompatActivity  implements  AddBottleFragment.OnFragmentInteractionListener, StatusFragment.OnFragmentInteractionListener, DevicesInUse.OnFragmentInteractionListener, PatientsFragment.OnFragmentInteractionListener{
+public class NavActivity extends AppCompatActivity  implements ConnectivityReceiver.ConnectivityReceiverListener, AddBottleFragment.OnFragmentInteractionListener, StatusFragment.OnFragmentInteractionListener, DevicesInUse.OnFragmentInteractionListener, PatientsFragment.OnFragmentInteractionListener{
     private AppBarConfiguration mAppBarConfiguration;
     public static final String CHANNEL_ID = "NOTIFICATION CHANNEL";
     SharedPreferences sharedPreferences;
@@ -55,6 +58,7 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
     DatabaseReference passRef = FirebaseDatabase.getInstance().getReference("password");
     DatabaseReference usernameRef = FirebaseDatabase.getInstance().getReference("username");
 
+    AlertDialog netDialog;
     private FirebaseAuth firebaseAuth;
 
     public static final String[] PASSWORD = LoginActivity.PASSWORD;
@@ -79,6 +83,11 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
         setContentView(R.layout.activity_nav);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        netDialog = new AlertDialog.Builder(this)
+                .setTitle("Network not available")
+                .setMessage("Waiting for network")
+                .setCancelable(false).create();
+        MyApplication.getInstance().setConnectivityListener(this);
 
         firebaseAuth=FirebaseAuth.getInstance();
 //        FloatingActionButton fab = findViewById(R.id.fab);
@@ -271,6 +280,22 @@ public class NavActivity extends AppCompatActivity  implements  AddBottleFragmen
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        if(isConnected){
+//            isDialogVisible = false;
+            netDialog.dismiss();
+        }
+        else{
+            View keyboardView = getCurrentFocus();
+            if (keyboardView != null) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(keyboardView.getWindowToken(), 0);
+            }
+            netDialog.show();
+        }
     }
 
 //    @Override
