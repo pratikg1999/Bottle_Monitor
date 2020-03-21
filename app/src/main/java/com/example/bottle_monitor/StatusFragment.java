@@ -123,7 +123,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
             bottle_qty = getArguments().getFloat(ARG_BOTTLE_QTY);
             Log.d("device id", device_id);
             curDeviceRef = deviceRef.child(device_id+"");
-            Toast.makeText(getActivity(), device_id+"", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), device_id+"", Toast.LENGTH_SHORT).show();
         }
         else{
             curDeviceRef = deviceRef.child(device_id+"");

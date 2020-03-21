@@ -58,9 +58,9 @@ public class PasswordDialog extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         String password = etPass.getText().toString();
-                        Toast.makeText(getContext(), password, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), password, Toast.LENGTH_SHORT).show();
                         listener.applytexts(password);
-                        Toast.makeText(getContext(),"finished apply texts",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(),"finished apply texts",Toast.LENGTH_SHORT).show();
                     }
                 });
 

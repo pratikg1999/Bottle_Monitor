@@ -85,7 +85,7 @@ import com.google.firebase.database.ValueEventListener;
 //        userEmail = sharedPreferences.getString(AC_EMAIL_KEY, null);
         boolean isAlreadyLoggedIn = sharedPreferences.getBoolean(IS_ALREADY_LOGGED_IN_KEY, false);
         if(isAlreadyLoggedIn){
-            Toast.makeText(this, "Already logged in", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Already logged in", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, NavActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             finish();
         }
@@ -138,8 +138,8 @@ import com.google.firebase.database.ValueEventListener;
         String password = etPassword.getText().toString();
         //Toast.makeText(getContext(), "Email: "+username, Toast.LENGTH_SHORT).show();
         String encPassword = AES.encrypt(password, AES.SECRET_KEY);
-        Toast.makeText(this, sharedPreferences.getString(USERNAME_KEY, "no username"), Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, sharedPreferences.getString(AC_PASS_KEY, "no pass"), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, sharedPreferences.getString(USERNAME_KEY, "no username"), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, sharedPreferences.getString(AC_PASS_KEY, "no pass"), Toast.LENGTH_SHORT).show();
         //Toast.makeText(getContext(), email.length()+"", Toast.LENGTH_SHORT).show();
         if(username.isEmpty() || username.length()==0){
             etUsername.setError("Enter an username");
@@ -201,6 +201,7 @@ import com.google.firebase.database.ValueEventListener;
 //                    userEmail = newEmail;
 //                    actualPassword = newPass;
 //                    Toast.makeText(ctx, sharedPreferences.getString(AC_PASS_KEY, "nopass"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, "Password changed successfully", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
                 }
                 else{

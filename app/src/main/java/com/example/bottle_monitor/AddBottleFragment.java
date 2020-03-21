@@ -215,8 +215,8 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
     public void applytexts(String password) {
 
         this.password = password.trim();
-        if(password.equals(LoginActivity.PASSWORD[0])){
-            Toast.makeText(getContext(),"entered",Toast.LENGTH_SHORT).show();
+        if(password.equals(AES.decrypt(LoginActivity.PASSWORD[0], AES.SECRET_KEY))){
+//            Toast.makeText(getContext(),"entered",Toast.LENGTH_SHORT).show();
 
             Date date = new Date();
 
@@ -227,7 +227,7 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
             curBottleIdRef.setValue(Bottle.curBottleId);
             dRef.child(device_id).child("on_off").setValue(true);
             dRef.child(device_id).child("ls_reading").setValue(Float.parseFloat(etBottleQty.getText().toString()));
-            Toast.makeText(getContext(),"yes",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(),"yes",Toast.LENGTH_SHORT).show();
 
 
 //            getActivity().getSupportFragmentManager().beginTransaction()
@@ -241,7 +241,7 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
             Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.statusFragment, statusFragmentBundle);
         }
         else{
-            Toast.makeText(getContext(),"wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"Wrong Password", Toast.LENGTH_LONG).show();
         }
 
 

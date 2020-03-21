@@ -136,7 +136,7 @@ public class NavActivity extends AppCompatActivity  implements ConnectivityRecei
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 PASSWORD[0] = dataSnapshot.getValue(String.class);
                 sharedPreferences.edit().putString(PASSWORD_KEY, PASSWORD[0]).apply();
-                Toast.makeText(NavActivity.this, "password: "+ PASSWORD[0], Toast.LENGTH_SHORT).show();
+//                Toast.makeText(NavActivity.this, "password: "+ PASSWORD[0], Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -150,7 +150,7 @@ public class NavActivity extends AppCompatActivity  implements ConnectivityRecei
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 USERNAME[0] = dataSnapshot.getValue(String.class);
                 sharedPreferences.edit().putString(LoginActivity.USERNAME_KEY, USERNAME[0]).apply();
-                Toast.makeText(NavActivity.this, "password: "+ USERNAME[0], Toast.LENGTH_SHORT).show();
+//                Toast.makeText(NavActivity.this, "password: "+ USERNAME[0], Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -252,6 +252,7 @@ public class NavActivity extends AppCompatActivity  implements ConnectivityRecei
 //                    userEmail = newEmail;
 //                    actualPassword = newPass;
 //                    Toast.makeText(ctx, sharedPreferences.getString(PASSWORD_KEY, "nopass"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, "Password changed successfully", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
                 else{
@@ -273,6 +274,7 @@ public class NavActivity extends AppCompatActivity  implements ConnectivityRecei
                 sharedPreferences.edit().putBoolean(LoginActivity.IS_ALREADY_LOGGED_IN_KEY, false).apply();
                 startActivity(new Intent(this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 firebaseAuth.signOut();
+                Toast.makeText(this, "Successfully logged out", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
             case R.id.change_pass:
