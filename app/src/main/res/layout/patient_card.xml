@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="Patient Name"
-                android:textAlignment="textEnd" />
+                />
         </LinearLayout>
 
         <LinearLayout
