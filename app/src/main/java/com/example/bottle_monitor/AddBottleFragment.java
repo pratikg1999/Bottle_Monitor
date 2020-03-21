@@ -165,7 +165,7 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    aaPatients.add(ds.getKey());
+                    aaPatients.add(ds.getKey() + ": "+ds.getValue(Patient.class).getName());
                 }
 
             }
@@ -179,6 +179,8 @@ public class AddBottleFragment extends Fragment implements PasswordDialog.Passwo
 
         spPatients.setAdapter(aaPatients);
 
+        spPatients.setHorizontalScrollBarEnabled(true);
+//        spPatients.setDropDownWidth(spPatients.getMeasuredWidth());
         return v;
     }
 
