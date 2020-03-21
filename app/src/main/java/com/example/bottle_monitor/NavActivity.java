@@ -84,7 +84,7 @@ public class NavActivity extends AppCompatActivity  implements ConnectivityRecei
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         netDialog = new AlertDialog.Builder(this)
-                .setTitle("Network not available")
+                .setTitle("Internet Unavailable!")
                 .setMessage("Waiting for network")
                 .setCancelable(false).create();
         MyApplication.getInstance().setConnectivityListener(this);

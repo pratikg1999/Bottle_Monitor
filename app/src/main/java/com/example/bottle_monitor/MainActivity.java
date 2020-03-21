@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity
     TextView tv_splash_title;
     public boolean flag=false;
 
+    public TextView title,title1,title2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,9 +31,9 @@ public class MainActivity extends AppCompatActivity
         getApplicationContext().registerReceiver(new ConnectivityReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         flag=checkConnectivity();
 
-        TextView title=findViewById(R.id.tv_splash_title);
-        TextView title1=findViewById(R.id.tv_splash_dev1);
-        TextView title2=findViewById(R.id.tv_splash_dev2);
+         title=findViewById(R.id.tv_splash_title);
+         title1=findViewById(R.id.tv_splash_dev1);
+         title2=findViewById(R.id.tv_splash_dev2);
 
 
 
@@ -53,15 +55,15 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onAnimationEnd(Animation animation) {
 
-//                if (flag){
+                if (flag){
                     startActivity(new Intent(getApplicationContext(),LoginActivity.class));
                    finish();
-//                }
-//                else {
-//                    title.setText("Internet Unavailable!");
-//                    title1.setText("Please connect to Internet");
-//                    title2.setText("& restart the app");
-//                }
+                }
+                else {
+                    title.setText("Internet Unavailable!");
+                    title1.setText("Please connect to Internet");
+                    title2.setText("");
+                }
 
 
             }
@@ -94,6 +96,18 @@ public class MainActivity extends AppCompatActivity
         Log.d("aboutcon", "onNetworkConnectionChanged: " + ConnectivityReceiver.isConnected());
         flag= ConnectivityReceiver.isConnected();
 
+        if (flag){
+            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+            finish();
+        }
+        else {
+            title.setText("Internet Unavailable!");
+            title1.setText("Please connect to Internet");
+            title2.setText("");
+        }
+
+
 
     }
+
 }
