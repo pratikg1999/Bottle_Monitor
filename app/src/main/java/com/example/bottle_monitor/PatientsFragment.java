@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -128,6 +129,12 @@ DatabaseReference curPatientRef = FirebaseDatabase.getInstance().getReference("c
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_patients, container, false);
+        v.requestFocus();
+        View keyboardView = getActivity().getCurrentFocus();
+        if (keyboardView != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(keyboardView.getWindowToken(), 0);
+        }
         rv_patients = v.findViewById(R.id.rv_patients);
         tv_no_patients = v.findViewById(R.id.tv_no_patients);
 
