@@ -24,7 +24,6 @@
             </intent-filter>
         </receiver>
 
-
         <activity
             android:name=".AlarmWakeupScreen"
             android:theme="@style/AppTheme.FullScreen">

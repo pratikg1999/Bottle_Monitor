@@ -17,11 +17,14 @@ public class MainActivity extends AppCompatActivity
 {
 
     TextView tv_splash_title;
+    public boolean flag=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        flag=checkConnectivity();
 
         TextView title=findViewById(R.id.tv_splash_title);
         TextView title1=findViewById(R.id.tv_splash_dev1);
@@ -46,8 +49,18 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
-                finish();
+
+                if (flag){
+                    startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                   finish();
+                }
+                else {
+                    title.setText("Internet Unavailable!");
+                    title1.setText("Please connect to Internet");
+                    title2.setText("& restart the app");
+                }
+
+
             }
 
             @Override
@@ -57,6 +70,10 @@ public class MainActivity extends AppCompatActivity
         });
 
 
+    }
+
+    public boolean checkConnectivity(){
+       return ConnectivityReceiver.isConnected();
     }
 
 
@@ -72,6 +89,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
 
-        boolean a= ConnectivityReceiver.isConnected();
+        flag= ConnectivityReceiver.isConnected();
+
     }
 }
