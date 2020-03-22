@@ -65,7 +65,7 @@ public class PasswordDialog extends DialogFragment {
                 });
 
         etPass = (EditText) view.findViewById(R.id.etPassword);
-
+        etPass.requestFocus();
         return builder.create();
 
 

@@ -187,7 +187,7 @@
                     <EditText
                         android:inputType="number"
                         android:layout_weight="1"
-                        android:hint="e.g. 5 min before completion"
+                        android:hint="e.g. 5 sec before completion"
                         android:id="@+id/et_alarm_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

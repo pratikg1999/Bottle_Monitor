@@ -88,6 +88,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
 
 
     private OnFragmentInteractionListener mListener;
+    private int min_bef = -1;
 
     static String getFormattedDate(Date date){
         DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a");
@@ -228,7 +229,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
 
                     tv_est_time.setText("___");
                     if(cb_notify.isChecked()){
-                        NotificationHelper.dispNotification(getActivity(), device_id + " completed", device_id + " bottle is now emptied and turned off");
+                        NotificationHelper.dispNotification(getActivity(), "Device " + device_id + " completed", device_id + "device's drip is now emptied and turned off");
                     }
                     for (int i=0;i<no_of_time_ring;i++) {
 //                        Log.d("increment",  "onDataChange: ");
@@ -252,6 +253,11 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                 }
                 else{
                     emptySoonCounter = 0;
+                    if(min_bef!=-1){
+                        Calendar alarm_cal = ((Calendar)est_time.clone());
+                        alarm_cal.add(Calendar.SECOND, -min_bef);
+                        setAlarm(alarm_cal);
+                    }
                 }
 //                Toast.makeText(getActivity(), rem_qty_in_ml+"", Toast.LENGTH_SHORT).show();
                 Boolean on_off_status = dataSnapshot.child("on_off").getValue(Boolean.class);
@@ -303,7 +309,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                 String min_bef_string = et_alarm_time.getText().toString();
 
                         if(min_bef_string!=null && !min_bef_string.equals("")) {
-                            int min_bef = Integer.parseInt(min_bef_string);
+                            min_bef = Integer.parseInt(min_bef_string);
 
                             Calendar alarmCal  = (Calendar) est_time.clone();
                             alarmCal.add(Calendar.SECOND, -min_bef);
@@ -312,15 +318,8 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
 //                            cal.setTimeInMillis(System.currentTimeMillis());
 //                            cal.clear();
 //                            cal.set(2012, 2, 8, 18, 16);
-
-                            AlarmManager alarmMgr = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-                            Intent intent = new Intent(getActivity(), AlarmReceiver.class);
-                            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
-                            // cal.add(Calendar.SECOND, 5);
-                            alarmMgr.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), pendingIntent);
-                            Toast.makeText(getActivity(), "Alarm set for "+ alarmCal.getTime().toString() , Toast.LENGTH_SHORT).show();
-                            tv_alarm_status.setText("Alarm set at "+ getFormattedDate(alarmCal.getTime()));
-                        }
+                                setAlarm(alarmCal);
+                             }
                         else{
                             et_alarm_time.setError("necessary");
                         }
@@ -333,6 +332,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
 
                 alarmMgr.cancel(pendingIntent);
+                min_bef = -1;
                 Toast.makeText(getActivity(), "alarm cancelled", Toast.LENGTH_SHORT).show();
                 tv_alarm_status.setText("No alarm set");
                 break;
@@ -365,8 +365,22 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                 }
 
         }
-    }
 
+    }
+    void setAlarm(Calendar alarmCal){
+        try {
+            AlarmManager alarmMgr = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(getActivity(), AlarmReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
+            // cal.add(Calendar.SECOND, 5);
+            alarmMgr.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), pendingIntent);
+            Toast.makeText(getActivity(), "Alarm set for " + alarmCal.getTime().toString(), Toast.LENGTH_SHORT).show();
+            tv_alarm_status.setText("Alarm set at " + getFormattedDate(alarmCal.getTime()));
+        }catch (Exception e){
+            Log.e(TAG, "setAlarm: " + e.toString());
+        }
+
+    }
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
