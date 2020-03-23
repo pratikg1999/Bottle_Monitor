@@ -16,6 +16,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,7 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
- public class LoginActivity extends AppCompatActivity  implements View.OnClickListener{
+ public class LoginActivity extends AppCompatActivity  implements View.OnClickListener, ConnectivityReceiver.ConnectivityReceiverListener {
 
      SharedPreferences sharedPreferences;
      DatabaseReference passRef = FirebaseDatabase.getInstance().getReference("password");
@@ -51,11 +52,19 @@ import com.google.firebase.database.ValueEventListener;
      TextView tv_show_pass_proto;
      TextView tv_show_username_proto;
 
+     AlertDialog netDialog;
+
+
      Button bLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        netDialog = new AlertDialog.Builder(this)
+                .setTitle("Internet Unavailable!")
+                .setMessage("Waiting for network")
+                .setCancelable(false).create();
+        MyApplication.getInstance().setConnectivityListener(this);
         tv_change_pass = findViewById(R.id.tv_change_pass);
         tv_change_pass.setPaintFlags(tv_change_pass.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tv_change_pass.setOnClickListener(this);
@@ -223,4 +232,19 @@ import com.google.firebase.database.ValueEventListener;
         }
      }
 
+     @Override
+     public void onNetworkConnectionChanged(boolean isConnected) {
+         if(isConnected){
+//            isDialogVisible = false;
+             netDialog.dismiss();
+         }
+         else{
+             View keyboardView = getCurrentFocus();
+             if (keyboardView != null) {
+                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                 imm.hideSoftInputFromWindow(keyboardView.getWindowToken(), 0);
+             }
+             netDialog.show();
+         }
+     }
  }
