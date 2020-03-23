@@ -20,8 +20,6 @@ public class MainActivity extends AppCompatActivity
 {
 
     TextView tv_splash_title;
-    public boolean flag=false;
-
     public TextView title,title1,title2;
 
     @Override
@@ -29,12 +27,28 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getApplicationContext().registerReceiver(new ConnectivityReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-        flag=checkConnectivity();
 
-         title=findViewById(R.id.tv_splash_title);
-         title1=findViewById(R.id.tv_splash_dev1);
-         title2=findViewById(R.id.tv_splash_dev2);
+// this area is use less
 
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // register connection status listener
+        MyApplication.getInstance().setConnectivityListener(this);
+    }
+
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+
+
+        title = findViewById(R.id.tv_splash_title);
+        title1 = findViewById(R.id.tv_splash_dev1);
+        title2 = findViewById(R.id.tv_splash_dev2);
 
 
         tv_splash_title = findViewById(R.id.tv_splash_title);
@@ -55,16 +69,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onAnimationEnd(Animation animation) {
 
-                if (flag){
-                    startActivity(new Intent(getApplicationContext(),LoginActivity.class));
-                   finish();
-                }
-                else {
+                if (ConnectivityReceiver.isConnected()) {
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    finish();
+                } else {
                     title.setText("Internet Unavailable!");
                     title1.setText("Please connect to Internet");
                     title2.setText("");
                 }
-
 
             }
 
@@ -73,40 +85,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
-
-    }
-
-    public boolean checkConnectivity(){
-       return ConnectivityReceiver.isConnected();
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // register connection status listener
-        MyApplication.getInstance().setConnectivityListener(this);
-    }
-
-
-    @Override
-    public void onNetworkConnectionChanged(boolean isConnected) {
-        Log.d("aboutcon", "onNetworkConnectionChanged: " + ConnectivityReceiver.isConnected());
-        flag= ConnectivityReceiver.isConnected();
-
-        if (flag){
-            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
-            finish();
-        }
-        else {
-            title.setText("Internet Unavailable!");
-            title1.setText("Please connect to Internet");
-            title2.setText("");
-        }
-
-
 
     }
 
